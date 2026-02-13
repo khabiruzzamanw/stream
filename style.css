@@ -1,0 +1,178 @@
+:root {
+  --bg-color: #040d12;
+  --card-color: rgb(20, 20, 20);
+  --accent-color: rgb(255, 0, 0);
+  --font-color: #b3c8cf;
+  --glass-effect-color: rgba(255, 255, 255, 0);
+  --secondary-font-color: rgb(125, 125, 125);
+  --box-shadow-color: #183d3d;
+  --border-color: rgba(255, 255, 255, 0.15);
+  --button-color: #003c43;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  border: none;
+  list-style: none;
+  outline: none;
+  text-decoration: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+img {
+  max-width: 100%;
+  object-fit: contain;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--font-color);
+  line-height: 1.6;
+  background-color: var(--bg-color);
+}
+
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav {
+  width:80%;
+  background-color: var(--glass-effect-color);
+  backdrop-filter: blur(4px);
+  /* border-bottom: 1px solid var(--border-color); */
+  padding:2rem 0.5rem 1rem 0.5rem;
+}
+
+ul {
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  column-gap: 2rem;
+}
+
+.homeLi {
+  margin-right: auto;
+}
+
+ul .selection {
+  background-color: var(--glass-effect-color);
+  padding: 0.5rem;
+  color: var(--font-color);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+}
+
+ul .selection option {
+  background-color: var(--glass-effect-color);
+  color: var(--font-color);
+  font-family: inherit;
+}
+
+ul .searchLi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: border-color 0.2s ease-in;
+}
+
+li .searchbar {
+  padding: 0.5rem;
+  background-color: var(--glass-effect-color);
+  color: var(--font-color);
+}
+
+ul .searchLi:focus-within {
+  border-color: var(--font-color);
+}
+
+li .searchButton {
+  padding: 0.5rem 1rem;
+  background-color: var(--button-color);
+  color: var(--font-color);
+  transition: background-color 0.2s ease-in, color 0.2s ease-in;
+}
+
+li .searchButton:hover {
+  cursor: pointer;
+  background-color: var(--font-color);
+  color: var(--button-color);
+}
+
+
+li a {
+  color: var(--font-color);
+  position: relative;
+}
+
+li .toGo::before {
+  content: "";
+  background-color: var(--accent-color);
+  position: absolute;
+  bottom: -0.1rem;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  transition: width 0.3s ease-out;
+}
+
+li .toGo:hover::before {
+  width: 100%;
+}
+
+
+main {
+  margin-top: 10rem;
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainPage{
+  width:80%;
+}
+
+.cardGrid {
+  display: grid;
+  /* grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); */
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  row-gap: 1rem;
+  column-gap: 0.5rem;
+
+
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color:rgb(61, 135, 135);
+  border-radius: 1rem;
+  overflow: hidden;
+
+
+}
+
+.cardImage {
+  width: 100%;
+}
+
+.cardInfo{
+  padding:0.5rem;
+}
