@@ -70,7 +70,7 @@ header {
 }
 
 nav {
-  width: 80%;
+  width: 100%;
   background-color: var(--glass-effect-color);
   backdrop-filter: blur(4px);
   /* border-bottom: 1px solid var(--border-color); */
@@ -86,60 +86,16 @@ ul {
   column-gap: 2rem;
 }
 
-.homeLi {
-  margin-right: auto;
-}
 
-ul .selection {
-  background-color: var(--glass-effect-color);
-  padding: 0.5rem;
-  color: var(--font-color);
-  border: 1px solid var(--border-color);
-  border-radius: 1rem;
-}
-
-ul .selection option {
-  background-color: var(--glass-effect-color);
-  color: var(--font-color);
-  font-family: inherit;
-}
-
-ul .searchLi {
-  /* width: 100%; */
-}
-
-ul .searchLi .toSearch {
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-ul .searchLi .toSearch img {
+.searchSection {
   width: 100%;
-  width: 1.5rem;
+  background-color: black;
 }
 
-li a {
-  color: var(--font-color);
-  position: relative;
+.searchSection .searchBar {
+  max-width: 100%;
 }
 
-li .toGo::before {
-  content: "";
-  background-color: var(--accent-color);
-  position: absolute;
-  bottom: -0.1rem;
-  left: 0;
-  height: 2px;
-  width: 0%;
-  transition: width 0.3s ease-out;
-}
-
-li .toGo:hover::before {
-  width: 100%;
-}
 
 .theme {
   cursor: pointer;
