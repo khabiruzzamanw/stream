@@ -1,58 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>stream</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>StreamFlix</title>
 </head>
+<body class="dark">
+    
+    <header>
+        <nav>
+            <div class="logo">StreamFlix</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="#">TV Shows</a></li>
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">New & Popular</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search titles...">
+                    <img src="images/searchDark.svg" alt="Search" id="searchIcon">
+                </div>
+                <img id="theme" class="theme-btn" src="images/darkMode.svg" alt="Theme" />
+            </div>
+        </nav>
+    </header>
 
-<body class='light'>
-  <header>
-    <nav>
-      <ul>
-        <li class="homeLi" id=""><a href="#" class="" id="">Home</a></li>
-        <li class="" id="">
-          <select name="Catagory" id="selection" class="selection" required>
-            <option value="default" disabled selected hidden>Select</option>
-            <option value="anime">English</option>
-            <option value="manga">Hindi</option>
-            <option value="manga">Bangla</option>
-            <option value="character">others</option>
-          </select>
-        </li>
-        <li class="searchLi" id="searchLi">
-          <button class="toSearch" id="toSearch">
-            <a href="search.html"><img src="images/searchDark.svg" alt=""></a>
-          </button>
-        </li>
-        <li class="" id=""><a href="#" class="toGo" id="">Movies</a></li>
-        <li class="" id=""><a href="#" class="toGo" id="">Tv-shows</a></li>
-        <li class="" id=""> <img id="theme" class="theme" src="images/lightMode.svg" alt="" />
-        </li>
-      </ul>
-    </nav>
-  </header>
+    <main>
+        <section id="searchSection" class="search-container" style="display: none;">
+            <h2>Search Results</h2>
+            <div class="search-grid" id="searchResultsGrid"></div>
+        </section>
 
-  <main>
-      <section class="cardCorousel" id="cardCorousel">
-        <div class="scrollInfinite" id="scrollInfinite">
-          <div class="cardGrid"></div>
-          <div class="cardGrid" aria-hidden="true"></div>
+        <div id="homeContent">
+            <section class="hero" id="hero">
+                <div class="hero-content">
+                    <h1 id="heroTitle">Loading...</h1>
+                    <p id="heroOverview">Please wait...</p>
+                    <div class="hero-buttons">
+                        <button id="heroPlayBtn" class="btn-play">▶ Play</button>
+                        <button id="heroInfoBtn" class="btn-info">ⓘ More Info</button>
+                    </div>
+                </div>
+                <div class="hero-overlay"></div>
+            </section>
+
+            <div class="rows-container">
+                <section class="row">
+                    <h2>Trending Now</h2>
+                    <div class="row-posters" id="trendingRow"></div>
+                </section>
+                <section class="row">
+                    <h2>Top Rated</h2>
+                    <div class="row-posters" id="topRatedRow"></div>
+                </section>
+                <section class="row">
+                    <h2>Action Thrillers</h2>
+                    <div class="row-posters" id="actionRow"></div>
+                </section>
+                <section class="row">
+                    <h2>Comedy Hits</h2>
+                    <div class="row-posters" id="comedyRow"></div>
+                </section>
+                <section class="row">
+                    <h2>Scary Movies</h2>
+                    <div class="row-posters" id="horrorRow"></div>
+                </section>
+            </div>
         </div>
-      </section>
-    <section class="mainPage" id="mainPage">
-      <section class="titleSection" id="titleSection">rgergae</section>
+    </main>
 
+    <div id="movieModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header" id="modalHeader"></div>
+            <div class="modal-body">
+                <h2 id="modalTitle">Title</h2>
+                <div class="modal-meta">
+                    <span id="modalRating" class="rating-badge"></span>
+                    <span id="modalDate"></span>
+                </div>
+                <p id="modalOverview">Description...</p>
+                <button id="modalPlayBtn" class="btn-play modal-play">▶ Play Movie</button>
+            </div>
+        </div>
+    </div>
 
+    <footer>
+        <p>StreamFlix &copy; 2024. Powered by TMDB.</p>
+    </footer>
 
-    </section>
-  </main>
-  <footer>
-
-  </footer>
-  <script src="index.js"></script>
+    <script src="index.js"></script>
 </body>
-
 </html>

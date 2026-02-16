@@ -1,190 +1,152 @@
 const apiKey = "70703951c7bdbbb345e20edb60cff4f1";
+const baseUrl = "https://api.themoviedb.org/3";
+const imgUrl = "https://image.tmdb.org/t/p/w500";
+const originalImgUrl = "https://image.tmdb.org/t/p/original";
 
-const show = document.querySelectorAll(".cardGrid");
-const scrollInfinite = document.getElementById("scrollInfinite");
-const titleSection = document.getElementById("titleSection");
+// Elements
+const homeContent = document.getElementById("homeContent");
+const searchSection = document.getElementById("searchSection");
+const searchResultsGrid = document.getElementById("searchResultsGrid");
+const searchInput = document.getElementById("searchInput");
 
-themeChanger();
-trendingFunction();
-
-
-
-async function trendingFunction() {
-  const trendingUrl = `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`
-
-  const trendingDataJson = await fetch(trendingUrl);
-
-  const trendingData = await trendingDataJson.json();
-
-  const trendingDataArr = trendingData.results;
-
-  trendingDataArr.forEach((element, index) => {
-
-    showTrendingUI(element, index);
-    //console log 
-
-    console.log(` trendingDataArray :`, element, index);
-  });
-
-  //console log 
-  console.log(` trendingdata :`, trendingData);
-
-
-}
-
-function showTrendingUI(data, index) {
-  const card = document.createElement("div");
-
-  card.setAttribute("class", "card");
-  card.setAttribute("id", `card${index + 1}`);
-  //console log 
-  console.log(card.id);
-
-
-  let srcUrl;
-  if (data.poster_path) {
-    srcUrl = ` https://image.tmdb.org/t/p/w500${data.poster_path}`
-  } else {
-    srcUrl = "images/demo.png "
-  }
-
-  // let srcUrl =` https://image.tmdb.org/t/p/w500${data.poster_path}  || images/demo.png `
-
-  let overviewWords;
-
-  if (data.overview.split(" ").length > 10) {
-    overviewWords = data.overview.split(" ").splice(0, 10).join(" ") + ".......";
-  }
-  else {
-    overviewWords = data.overview;
-  }
-
-  let playSrc = localStorage.getItem("playButtonImg") || "images/playDark.png";
-  let infoSrc = localStorage.getItem("infoButtonImg") || "images/infoDark.png";
-
-  card.innerHTML = `
-                      <div class="cardImage" >
-                      <div class="playButton" >
-                      <a href="play.html"><img class="playButtonImg" src=${playSrc} alt=""></a>
-                      <a href="info.html"><img  class="infoButtonImg" src=${infoSrc}  alt=""></a>
-                      
-                      
-                      </div>
-                      
-                      <img src=${srcUrl} alt="">
-                      
-                      <div class="cardInfo" ">
-                      <p>
-                      ${data.original_title}
-                      </p>
-                      <p>
-                      Aka : ${data.title}
-                      </p>
-                      <p>
-                      Overview : ${overviewWords}
-                      </p>
-                      Language : ${data.original_language}
-                      </p>
-                      </div>
-                      </div>
-                   `
-
-  // show.appendChild(card);
-
-  // show.forEach((element) => {
-
-  //   element.appendChild(card);
-  // })
-
-  if(show.length >= 2) {
-    show[0].appendChild(card);
-    show[1].appendChild(card.cloneNode(true)); // cloneNode is key for infinite loops
-  }
-
-}
-
-
-
-
-
-
-function themeChanger() {
-
-  const theme = document.getElementById("theme");
-
-  document.body.classList.add(localStorage.getItem("userTheme")) || "light";
-  theme.src = localStorage.getItem("themeImg") || "images/lightMode.svg";
-
-
-  theme.addEventListener("click", () => {
-    let themeData = document.body.classList;
-    const playButtonImg = document.querySelectorAll(".playButtonImg");
-    const infoButtonImg = document.querySelectorAll(".infoButtonImg");
-
-    if (themeData.contains("dark")) {
-
-      themeData.replace("dark", "light");
-      theme.src = "images/lightMode.svg";
-      localStorage.setItem("userTheme", "light");
-      localStorage.setItem("themeImg", "images/lightMode.svg");
-      if (playButtonImg) {
-        playButtonImg.forEach((element) => {
-          element.src = "images/playDark.png";
-          localStorage.setItem("playButtonImg", "images/playDark.png")
-        })
-
-      }
-      if (infoButtonImg) {
-
-
-        infoButtonImg.forEach((element) => {
-
-          element.src = "images/infoDark.png";
-          localStorage.setItem("infoButtonImg", "images/infoDark.png")
-        })
-      }
-
-    } else {
-
-      themeData.replace("light", "dark");
-      theme.src = "images/darkMode.svg";
-      localStorage.setItem("userTheme", "dark");
-      localStorage.setItem("themeImg", "images/darkMode.svg");
-      if (playButtonImg) {
-        playButtonImg.forEach((element) => {
-          element.src = "images/playLight.png";
-          localStorage.setItem("playButtonImg", "images/playLight.png")
-        })
-      }
-      if (infoButtonImg) {
-        infoButtonImg.forEach((element) => {
-          element.src = "images/infoLight.png";
-          localStorage.setItem("infoButtonImg", "images/infoLight.png")
-        })
-      }
-
-
-    }
-
-  });
-
+const requests = {
+    fetchTrending: `${baseUrl}/trending/all/day?api_key=${apiKey}`,
+    fetchTopRated: `${baseUrl}/movie/top_rated?api_key=${apiKey}&language=en-US`,
+    fetchAction: `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=28`,
+    fetchComedy: `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=35`,
+    fetchHorror: `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=27`,
+    search: `${baseUrl}/search/movie?api_key=${apiKey}&query=`,
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
+    
+    // Load Rows
+    fetchMovies(requests.fetchTrending, "trendingRow", true);
+    fetchMovies(requests.fetchTopRated, "topRatedRow");
+    fetchMovies(requests.fetchAction, "actionRow");
+    fetchMovies(requests.fetchComedy, "comedyRow");
+    fetchMovies(requests.fetchHorror, "horrorRow");
 
+    setupModal();
 
+    // Search Listener
+    searchInput.addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+            const query = e.target.value;
+            if (query) {
+                performSearch(query);
+            } else {
+                showHome();
+            }
+        }
+    });
+});
 
+async function fetchMovies(url, domId, isHero = false) {
+    const response = await fetch(url);
+    const data = await response.json();
+    const movies = data.results;
 
+    if (isHero) {
+        const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+        setHero(randomMovie);
+    }
 
+    const rowContainer = document.getElementById(domId);
+    rowContainer.innerHTML = ""; // Clear existing
+    
+    movies.forEach(movie => {
+        const card = createCard(movie);
+        rowContainer.appendChild(card);
+    });
+}
 
-async function trailer(movieId) {
-  const url = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`;
+function createCard(movie) {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    
+    const img = document.createElement("img");
+    img.src = movie.poster_path ? `${imgUrl}${movie.poster_path}` : "images/demo.png";
+    img.alt = movie.title;
+    
+    card.addEventListener('click', () => openModal(movie));
+    card.appendChild(img);
+    return card;
+}
 
-  const responseDataJson = await fetch(url);
+// Search Functionality
+async function performSearch(query) {
+    homeContent.style.display = "none";
+    searchSection.style.display = "block";
+    searchResultsGrid.innerHTML = "Loading...";
 
-  const responseData = await responseDataJson.json();
-  //console log 
+    const url = `${requests.search}${encodeURIComponent(query)}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    searchResultsGrid.innerHTML = ""; // Clear loading
+    if(data.results.length === 0) {
+        searchResultsGrid.innerHTML = "<p>No results found.</p>";
+        return;
+    }
 
-  console.log(responseData);
+    data.results.forEach(movie => {
+        const card = createCard(movie);
+        searchResultsGrid.appendChild(card);
+    });
+}
 
+function showHome() {
+    searchSection.style.display = "none";
+    homeContent.style.display = "block";
+    searchInput.value = "";
+}
 
+function setHero(movie) {
+    document.getElementById("heroTitle").innerText = movie.title || movie.name;
+    document.getElementById("heroOverview").innerText = movie.overview;
+    document.getElementById("hero").style.backgroundImage = `url(${originalImgUrl}${movie.backdrop_path})`;
+    
+    // Play button
+    document.getElementById("heroPlayBtn").onclick = () => {
+        window.location.href = `play.html?id=${movie.id}`;
+    };
+    
+    document.getElementById("heroInfoBtn").addEventListener("click", () => openModal(movie));
+}
+
+// Modal
+const modal = document.getElementById("movieModal");
+function setupModal() {
+    document.querySelector(".close").addEventListener("click", () => modal.style.display = "none");
+    window.addEventListener("click", (e) => { if(e.target == modal) modal.style.display = "none" });
+}
+
+function openModal(movie) {
+    document.getElementById("modalTitle").innerText = movie.title || movie.name;
+    document.getElementById("modalOverview").innerText = movie.overview;
+    document.getElementById("modalRating").innerText = `Rating: ${movie.vote_average}`;
+    document.getElementById("modalDate").innerText = movie.release_date || "N/A";
+    document.getElementById("modalHeader").style.backgroundImage = `url(${originalImgUrl}${movie.backdrop_path})`;
+    
+    // Modal Play Button
+    const playBtn = document.getElementById("modalPlayBtn");
+    playBtn.onclick = () => {
+        window.location.href = `play.html?id=${movie.id}`;
+    };
+
+    modal.style.display = "flex";
+}
+
+function initTheme() {
+    const themeBtn = document.getElementById("theme");
+    const savedTheme = localStorage.getItem("userTheme");
+    if (savedTheme) document.body.className = savedTheme;
+    
+    themeBtn.addEventListener("click", () => {
+        const newTheme = document.body.className === "dark" ? "light" : "dark";
+        document.body.className = newTheme;
+        localStorage.setItem("userTheme", newTheme);
+    });
 }
