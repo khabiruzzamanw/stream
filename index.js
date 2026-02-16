@@ -1,16 +1,24 @@
-import { apiKey } from "./api.js";
+import { apiKey, baseUrl } from "./api.js";
 
-const show = document.querySelectorAll(".cardGrid");
-const scrollInfinite = document.getElementById("scrollInfinite");
-const titleSection = document.getElementById("titleSection");
+const trendingUrl = `${baseUrl}/trending/all/day?api_key=${apiKey}`;
+const popularUrl = `${baseUrl}/movie/popular?api_key=${apiKey}`;
+const topRatedUrl = `${baseUrl}/movie/top_rated?api_key=${apiKey}`;
+const thrillerUrl = `${baseUrl}`;
+const HorrorUrl = `${baseUrl}`;
+const posterUrl = `https://image.tmdb.org/t/p/w500`
+
+const trendingCarousel = document.getElementById("trendingCarousel");
+const popularCarousel = document.getElementById("popularCarousel");
+const topRatedCarousel = document.getElementById("topRatedCarousel");
 
 themeChanger();
 trendingFunction();
+popularFunction();
+topRatedFunction();
 
 
 
 async function trendingFunction() {
-  const trendingUrl = `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`
 
   const trendingDataJson = await fetch(trendingUrl);
 
@@ -20,7 +28,8 @@ async function trendingFunction() {
 
   trendingDataArr.forEach((element, index) => {
 
-    showTrendingUI(element, index);
+    const card = carouselUi(element, index);
+    trendingCarousel.appendChild(card);
     //console log 
 
     console.log(` trendingDataArray :`, element, index);
@@ -32,7 +41,53 @@ async function trendingFunction() {
 
 }
 
-function showTrendingUI(data, index) {
+
+
+async function popularFunction() {
+  const popularDataJson = await fetch(popularUrl);
+
+  const popularData = await popularDataJson.json();
+
+  const popularDataArr = popularData.results;
+
+  popularDataArr.forEach((element, index) => {
+
+    const card = carouselUi(element, index);
+    popularCarousel.appendChild(card);
+
+    //console log 
+
+    console.log(` popularDataArray :`, element, index);
+  });
+  //console log 
+  console.log(` popularData :`, popularData);
+
+}
+
+
+async function topRatedFunction() {
+  const topRatedDataJson = await fetch(topRatedUrl);
+
+  const topRatedData = await topRatedDataJson.json();
+
+  const topRatedDataArr = topRatedData.results;
+
+  topRatedDataArr.forEach((element, index) => {
+
+    const card = carouselUi(element, index);
+    topRatedCarousel.appendChild(card);
+
+    //console log 
+
+    console.log(` topRatedDataArray :`, element, index);
+  });
+  //console log 
+  console.log(` topRatedData :`, topRatedData);
+
+}
+
+
+function carouselUi(data, index) {
   const card = document.createElement("div");
 
   card.setAttribute("class", "card");
@@ -43,12 +98,10 @@ function showTrendingUI(data, index) {
 
   let srcUrl;
   if (data.poster_path) {
-    srcUrl = ` https://image.tmdb.org/t/p/w500${data.poster_path}`
+    srcUrl = ` ${posterUrl}${data.poster_path}`
   } else {
     srcUrl = "images/demo.png "
   }
-
-  // let srcUrl =` https://image.tmdb.org/t/p/w500${data.poster_path}  || images/demo.png `
 
   let overviewWords;
 
@@ -64,44 +117,21 @@ function showTrendingUI(data, index) {
 
   card.innerHTML = `
                       <div class="cardImage" >
-                      <div class="playButton" >
+                      <img src=${srcUrl} alt="">                    
+                      <div class="cardButton" >
                       <a href="play.html"><img class="playButtonImg" src=${playSrc} alt=""></a>
-                      <a href="info.html"><img  class="infoButtonImg" src=${infoSrc}  alt=""></a>
-                      
+                      <a href="info.html"><img  class="infoButtonImg" src=${infoSrc}  alt=""></a>           
                       
                       </div>
                       
-                      <img src=${srcUrl} alt="">
-                      
-                      <div class="cardInfo" ">
-                      <p>
-                      ${data.original_title}
-                      </p>
-                      <p>
-                      Aka : ${data.title}
-                      </p>
-                      <p>
-                      Overview : ${overviewWords}
-                      </p>
-                      Language : ${data.original_language}
-                      </p>
-                      </div>
+      
                       </div>
                    `
 
-  // show.appendChild(card);
-
-  // show.forEach((element) => {
-
-  //   element.appendChild(card);
-  // })
-
-  if(show.length >= 2) {
-    show[0].appendChild(card);
-    show[1].appendChild(card.cloneNode(true)); // cloneNode is key for infinite loops
-  }
-
+  return card;
 }
+
+
 
 
 
@@ -169,22 +199,3 @@ function themeChanger() {
   });
 
 };
-
-
-
-
-
-
-
-async function trailer(movieId) {
-  const url = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`;
-
-  const responseDataJson = await fetch(url);
-
-  const responseData = await responseDataJson.json();
-  //console log 
-
-  console.log(responseData);
-
-
-}
