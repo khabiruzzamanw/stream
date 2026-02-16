@@ -11,10 +11,23 @@ const trendingCarousel = document.getElementById("trendingCarousel");
 const popularCarousel = document.getElementById("popularCarousel");
 const topRatedCarousel = document.getElementById("topRatedCarousel");
 
-themeChanger();
-trendingFunction();
-popularFunction();
-topRatedFunction();
+// Instead of calling them one by one, run them in parallel
+async function init() {
+  themeChanger();
+
+  await Promise.all([
+    trendingFunction(),
+    popularFunction(),
+    topRatedFunction()
+  ]);
+}
+
+init();
+
+// themeChanger();
+// trendingFunction();
+// popularFunction();
+// topRatedFunction();
 
 
 
@@ -141,9 +154,11 @@ function carouselUi(data, index) {
 function themeChanger() {
 
   const theme = document.getElementById("theme");
+  const toSearchImg = document.getElementById("toSearchImg");
 
   document.body.classList.add(localStorage.getItem("userTheme")) || "light";
   theme.src = localStorage.getItem("themeImg") || "images/lightMode.svg";
+  toSearchImg.src = localStorage.getItem("SearchImg") || "images/searchDark.svg";
 
 
   theme.addEventListener("click", () => {
@@ -155,8 +170,10 @@ function themeChanger() {
 
       themeData.replace("dark", "light");
       theme.src = "images/lightMode.svg";
+      toSearchImg.src = "images/searchDark.svg";
       localStorage.setItem("userTheme", "light");
       localStorage.setItem("themeImg", "images/lightMode.svg");
+      localStorage.setItem("SearchImg", "images/searchDark.svg");
       if (playButtonImg) {
         playButtonImg.forEach((element) => {
           element.src = "images/playDark.png";
@@ -178,8 +195,10 @@ function themeChanger() {
 
       themeData.replace("light", "dark");
       theme.src = "images/darkMode.svg";
+      toSearchImg.src = "images/searchLight.svg";
       localStorage.setItem("userTheme", "dark");
       localStorage.setItem("themeImg", "images/darkMode.svg");
+      localStorage.setItem("SearchImg", "images/searchLight.svg");
       if (playButtonImg) {
         playButtonImg.forEach((element) => {
           element.src = "images/playLight.png";

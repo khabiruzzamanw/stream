@@ -166,6 +166,7 @@ main {
   gap:2rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  padding: 0 1rem;
 }
 .topRatedCarouselSection{
   width:100%;
@@ -184,6 +185,8 @@ main {
   flex-shrink: 0;
   width:300px;
   scroll-snap-align: start;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
 .cardImage {
@@ -192,6 +195,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .cardImage .cardButton {
@@ -199,11 +203,12 @@ main {
   justify-content: center;
   align-items: center;
   column-gap: 2rem;
+  position: absolute;
   opacity: 0;
   transition: all 0.2s ease-in;
 }
 
-.card:hover .playButton {
+.card:hover .cardButton {
   opacity: 0.9;
 
 }
