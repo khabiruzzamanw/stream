@@ -150,12 +150,17 @@ main {
   margin-top: 10rem;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .mainPage {
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
 }
 
 .searchedTitle {
@@ -167,29 +172,44 @@ main {
   text-align: center;
 }
 
+.cardCorousel{
+  display:flex;
+  z-index:2;
+  overflow-x:hidden;
+}
+.scrollInfinite {
+  display: flex;
+  width: max-content; 
+  animation: moveInRound 120s linear infinite; 
+}
 
 
 .cardGrid {
-  width: 100%;
-  display: grid;
-  /* grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); */
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  row-gap: 1rem;
-  column-gap: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  flex-shrink: 0;
+}
+
+@keyframes moveInRound {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+
+    transform: translateX(-50%);
+  }
+}
 
 
+.cardCorousel:hover .scrollInfinite {
+  animation-play-state: paused;
 }
 
 .card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--card-color);
-  border-radius: 1rem;
-  overflow: hidden;
-  position: relative;
-  transition: display 0.3s ease-in;
-
+  width: 30rem;
+  height:35rem;
+  flex-shrink: 0;
 
 }
 

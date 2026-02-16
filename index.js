@@ -1,6 +1,7 @@
 const apiKey = "70703951c7bdbbb345e20edb60cff4f1";
 
-const show = document.getElementById("cardGrid");
+const show = document.querySelectorAll(".cardGrid");
+const scrollInfinite = document.getElementById("scrollInfinite");
 const titleSection = document.getElementById("titleSection");
 
 themeChanger();
@@ -17,12 +18,12 @@ async function trendingFunction() {
 
   const trendingDataArr = trendingData.results;
 
-  trendingDataArr.forEach((element,index) => {
+  trendingDataArr.forEach((element, index) => {
 
-    showTrendingUI(element,index);
-  //console log 
+    showTrendingUI(element, index);
+    //console log 
 
-    console.log(` trendingDataArray :`, element,index);
+    console.log(` trendingDataArray :`, element, index);
   });
 
   //console log 
@@ -31,14 +32,14 @@ async function trendingFunction() {
 
 }
 
-function showTrendingUI(data,index) {
+function showTrendingUI(data, index) {
   const card = document.createElement("div");
 
   card.setAttribute("class", "card");
   card.setAttribute("id", `card${index + 1}`);
   //console log 
   console.log(card.id);
-  
+
 
   let srcUrl;
   if (data.poster_path) {
@@ -88,7 +89,18 @@ function showTrendingUI(data,index) {
                       </div>
                    `
 
-  show.appendChild(card);
+  // show.appendChild(card);
+
+  // show.forEach((element) => {
+
+  //   element.appendChild(card);
+  // })
+
+  if(show.length >= 2) {
+    show[0].appendChild(card);
+    show[1].appendChild(card.cloneNode(true)); // cloneNode is key for infinite loops
+  }
+
 }
 
 
