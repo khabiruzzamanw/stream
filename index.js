@@ -1,4 +1,4 @@
-const apiKey = "70703951c7bdbbb345e20edb60cff4f1";
+import { apiKey } from "./api.js";
 
 const show = document.querySelectorAll(".cardGrid");
 const scrollInfinite = document.getElementById("scrollInfinite");
