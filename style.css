@@ -147,33 +147,59 @@ main {
   flex-direction: column;
 }
 
-.trendingCarouselSection{
-  width:100%;
+.trendingCarouselSection {
+  width: 100%;
 }
-.trendingCarousel{
-  display:flex;
-  gap:2rem;
+
+.trendingCarousel {
+  display: flex;
+  gap: 2rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 }
 
-
-.popularCarouselSection{
-  width:100%;
+.carouselWrapper {
+  position: relative;
 }
-.popularCarousel{
-  display:flex;
-  gap:2rem;
+
+.scrollButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); /* keeps it vertically centered */
+  z-index: 10;
+}
+
+.leftArrow {
+  left: 0;
+}
+
+.rightArrow {
+  right: 0;
+}
+.popularCarouselSection {
+  width: 100%;
+}
+
+
+.popularCarousel {
+  display: flex;
+  gap: 2rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding: 0 1rem;
 }
-.topRatedCarouselSection{
-  width:100%;
+
+.popularCarousel::-webkit-scrollbar-button {
+  content: "right";
 }
-.topRatedCarousel{
-  display:flex;
-  gap:2rem;
+
+.topRatedCarouselSection {
+  width: 100%;
+}
+
+.topRatedCarousel {
+  display: flex;
+  gap: 2rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 }
@@ -183,7 +209,7 @@ main {
 .card {
   max-width: 100%;
   flex-shrink: 0;
-  width:300px;
+  width: 300px;
   scroll-snap-align: start;
   border-radius: 1rem;
   overflow: hidden;

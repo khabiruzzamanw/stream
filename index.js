@@ -14,12 +14,13 @@ const topRatedCarousel = document.getElementById("topRatedCarousel");
 // Instead of calling them one by one, run them in parallel
 async function init() {
   themeChanger();
-
+  
   await Promise.all([
     trendingFunction(),
     popularFunction(),
     topRatedFunction()
   ]);
+  scroll();
 }
 
 init();
@@ -218,3 +219,47 @@ function themeChanger() {
   });
 
 };
+
+
+
+
+
+
+// function setupCarouselArrows() {
+//   document.querySelectorAll(".arrowBtn").forEach(btn => {
+//     btn.addEventListener("click", () => {
+//       const targetId = btn.dataset.target;
+//       const carousel = document.getElementById(targetId);
+//       const scrollAmount = 320; 
+
+//       if (btn.classList.contains("leftArrow")) {
+//         carousel.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+//       } else {
+//         carousel.scrollBy({ left: scrollAmount, behavior: "smooth" });
+//       }
+//     });
+//   });
+// }
+
+
+
+
+function scroll() {
+  const scrollButton = document.querySelectorAll('.scrollButton')
+  scrollButton.forEach((button) => {
+
+    button.addEventListener("click", (carou) => {
+      const carousel = button.closest(".carouselWrapper").querySelector('.carousel');
+
+      if (button.classList.contains("leftArrow")){
+        carousel.scrollBy({left: -320,behavior: "smooth"});
+      }
+      else{
+        carousel.scrollBy({left: 320,behavior: "smooth"});
+
+      }
+
+    })
+
+  })
+}
