@@ -20,6 +20,7 @@ async function init() {
     popularFunction(),
     topRatedFunction()
   ]);
+  scroll();
 }
 
 init();
@@ -132,8 +133,8 @@ function carouselUi(data, index) {
                       <div class="cardImage" >
                       <img src=${srcUrl} alt="">                    
                       <div class="cardButton" >
-                      <a href="play.html"><img class="playButtonImg" src=${playSrc} alt=""></a>
-                      <a href="info.html"><img  class="infoButtonImg" src=${infoSrc}  alt=""></a>           
+                      <a href="play.html?id=${data.id}"><img class="playButtonImg" src=${playSrc} alt=""></a>
+                      <a href="info.html?id=${data.id}"><img  class="infoButtonImg" src=${infoSrc}  alt=""></a>           
                       
                       </div>
                       
@@ -141,7 +142,12 @@ function carouselUi(data, index) {
                       </div>
                    `
 
+  //console log
+  console.log(data.id);
   return card;
+
+
+
 }
 
 
@@ -155,10 +161,31 @@ function themeChanger() {
 
   const theme = document.getElementById("theme");
   const toSearchImg = document.getElementById("toSearchImg");
+  const leftArrow = document.querySelectorAll(".leftArrowImage");
+  const rightArrow = document.querySelectorAll(".rightArrowImage");
 
   document.body.classList.add(localStorage.getItem("userTheme")) || "light";
   theme.src = localStorage.getItem("themeImg") || "images/lightMode.svg";
   toSearchImg.src = localStorage.getItem("SearchImg") || "images/searchDark.svg";
+
+  if (leftArrow) {
+
+
+    leftArrow.forEach((element) => {
+
+      element.src = localStorage.getItem("leftArrowImg") || "images/swipeLeftDark.png";
+
+    })
+  }
+  if (rightArrow) {
+
+
+    rightArrow.forEach((element) => {
+
+      element.src = localStorage.getItem("rightArrowImg") || "images/swipeRightDark.png";
+
+    })
+  }
 
 
   theme.addEventListener("click", () => {
@@ -182,12 +209,21 @@ function themeChanger() {
 
       }
       if (infoButtonImg) {
-
-
         infoButtonImg.forEach((element) => {
-
           element.src = "images/infoDark.png";
           localStorage.setItem("infoButtonImg", "images/infoDark.png")
+        })
+      }
+      if (leftArrow) {
+        leftArrow.forEach((element) => {
+          element.src = "images/swipeLeftDark.png";
+          localStorage.setItem("leftArrowImg", "images/swipeLeftDark.png")
+        })
+      }
+      if (rightArrow) {
+        rightArrow.forEach((element) => {
+          element.src = "images/swipeRightDark.png";
+          localStorage.setItem("rightArrowImg", "images/swipeRightDark.png")
         })
       }
 
@@ -211,10 +247,42 @@ function themeChanger() {
           localStorage.setItem("infoButtonImg", "images/infoLight.png")
         })
       }
-
+      if (leftArrow) {
+        leftArrow.forEach((element) => {
+          element.src = "images/swipeLeftLight.png";
+          localStorage.setItem("leftArrowImg", "images/swipeLeftLight.png")
+        })
+      }
+      if (rightArrow) {
+        rightArrow.forEach((element) => {
+          element.src = "images/swipeRightLight.png";
+          localStorage.setItem("rightArrowImg", "images/swipeRightLight.png")
+        })
+      }
 
     }
 
   });
 
 };
+
+
+function scroll() {
+  const scrollButton = document.querySelectorAll('.scrollButton')
+  scrollButton.forEach((button) => {
+
+    button.addEventListener("click", (carou) => {
+      const carousel = button.closest(".carouselWrapper").querySelector('.carousel');
+
+      if (button.classList.contains("leftArrow")) {
+        carousel.scrollBy({ left: -320, behavior: "smooth" });
+      }
+      else {
+        carousel.scrollBy({ left: 320, behavior: "smooth" });
+
+      }
+
+    })
+
+  })
+}

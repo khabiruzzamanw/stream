@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="info.js"></script>
+    <title>stream/info</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --accent-color: #5c7e8f;
+            --card-color: #d4dde290;
+            --button-color: #ffffff;
+            --glass-effect-color: rgba(255, 255, 255, 0);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --font-color: #111111;
+            --box-shadow-color: #a2a2a220;
+        }
+
+
+        .dark {
+            --bg-color: #111111;
+            --accent-color: rgba(255, 255, 255, 0.15);
+            --card-color: #22222290;
+            --button-color: #111111;
+            --glass-effect-color: rgba(255, 255, 255, 0);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --font-color: #ffffff;
+            --box-shadow-color: #a2a2a220;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            border: none;
+            list-style: none;
+            outline: none;
+            text-decoration: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        img {
+            max-width: 100%;
+            object-fit: cover;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--font-color);
+            line-height: 1.6;
+            background-color: var(--bg-color);
+        }
+
+        main {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            --bg-image: none;
+
+        }
+
+        /* Background Image Layer */
+        main::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: top center;
+            background-repeat: no-repeat;
+            z-index: -2;
+        }
+
+
+        /* Gradient Overlay Layer */
+        main::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.8) 90%);
+            z-index: -1;
+        }
+
+
+        .movieInfo {
+            /* Ensure text is readable against busy backgrounds */
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .moviePage {
+            position: relative;
+            z-index: 1;
+            /* 🔥 THIS FIXES IT */
+        }
+
+
+        .movieInfo {
+            position: absolute;
+            bottom: 1rem;
+            padding: 0 0 0 2rem;
+            /* z-index: 10; */
+        }
+
+        .movieStat {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        main::before {
+            z-index: 0;
+        }
+
+        main::after {
+            z-index: 1;
+        }
+
+        .moviePage {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body class="light">
+    <main class="mainPage" id="mainPage">
+        <section class="moviePage" id="moviePage">
+
+            <div class="movieInfo" id="movieInfo">
+                <div class="movieStat" id="movieStat">
+
+                </div>
+
+                <div class="movieButtons" id="movieButtons">
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
