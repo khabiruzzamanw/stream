@@ -3,7 +3,7 @@ import { apiKey, baseUrl } from "./api.js";
 
 const movieInfoUrl = `/movie/{movieId}?api_key=${apiKey}`;
 
-const posterUrl = `https://image.tmdb.org/t/p/w500`
+const posterUrl = `https://image.tmdb.org/t/p/original`
 const mainPage = document.getElementById("mainPage");
 
 
@@ -14,11 +14,16 @@ movieInfoFunction();
 
 async function movieInfoFunction() {
     const movieInfoJson = await fetch(`${baseUrl}/movie/${movieId}?api_key=${apiKey}`);
-    
+
 
     const movieInfoData = await movieInfoJson.json();
     //console log
-    let srcUrl = `${posterUrl}${movieInfoData.backdrop_path}`  || `${posterUrl}${movieInfoData.poster_path}` ;
+    let srcUrl;
+    if (movieInfoData.backdrop_path) {
+        srcUrl = `${posterUrl}${movieInfoData.backdrop_path}`;
+    } else {
+        srcUrl = `${posterUrl}${movieInfoData.backdrop_path}` || `${posterUrl}${movieInfoData.poster_path}`
+    }
     mainPage.style.setProperty("--bg-image", `url(${srcUrl})`);
     console.log(movieInfoData);
     showMovieInfoUi(movieInfoData)
@@ -35,17 +40,22 @@ function showMovieInfoUi(data) {
     let playSrc = localStorage.getItem("playButtonImg") || "images/playDark.png";
 
     movieButtons.innerHTML = `
-                                    <a href="play.html?id=${data.id}"><img class="playButtonImg" src=${playSrc} alt=""></a>
-                                 `
+        <a href="play.html?id=${data.id}">
+            <img class="playButtonImg" src="${playSrc}" alt="">
+        </a>
+    `;
+
     movieStat.innerHTML = `
-                                  <p>${data.original_title}</p>
-                                  <p>Aka : ${data.title}</p>
-                                  <p>Language : ${data.spoken_languages.english_name}</p>
-                                  <p>Status : ${data.status}</p>
-                                  <p>Status : ${data.release_date}</p>
-                                  <p>Budget : ${data.budget}</p>
-                                  <p>Revenu : ${data.revenu}</p>
-                                  ${genre}
-                              `
+        <p>${data.original_title}</p>
+        <p>Aka : ${data.title}</p>
+        <p>Overview : ${data.overview}</p>
+        <p>Language : ${data.spoken_languages[0]?.english_name || "N/A"}</p>
+        <p>Status : ${data.status}</p>
+        <p>Release : ${data.release_date}</p>
+        <p>Budget : ${data.budget}</p>
+        <p>Revenue : ${data.revenue}</p>
+        <div class="genreDiv">${genre}</div>
+    `;
 }
+
 
