@@ -145,6 +145,11 @@ main {
   width: 80%;
   display: flex;
   flex-direction: column;
+  row-gap: 4rem;
+}
+
+.heroSectionH2 {
+  margin-bottom: 2rem;
 }
 
 .trendingCarouselSection {
@@ -160,13 +165,25 @@ main {
 
 .carouselWrapper {
   position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
 .scrollButton {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%); /* keeps it vertically centered */
+  transform: translateY(-50%);
+  /* keeps it vertically centered */
   z-index: 10;
+  background-color: rgba(0, 0, 0, 0.377);
+  /* border-radius:25%; */
+  width: 4rem;
+  height: 100%;
+  border-radius: 1rem;
+}
+
+.scrollButton:hover {
+  cursor: pointer;
 }
 
 .leftArrow {
@@ -176,6 +193,7 @@ main {
 .rightArrow {
   right: 0;
 }
+
 .popularCarouselSection {
   width: 100%;
 }
@@ -202,6 +220,23 @@ main {
   gap: 2rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+}
+
+
+.trendingCarousel,
+.popularCarousel,
+.topRatedCarousel {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
+}
+
+.trendingCarousel::-webkit-scrollbar,
+.popularCarousel::-webkit-scrollbar,
+.topRatedCarousel::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
 }
 
 
