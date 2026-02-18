@@ -1,31 +1,28 @@
-const apiKey = "70703951c7bdbbb345e20edb60cff4f1";
+import { apiKey,baseUrl} from "./api.js";
 
 const searchBar = document.getElementById("searchBar");
 const searchButton = document.getElementById("searchButton");
 const show = document.getElementById("cardGrid");
 const titleSection = document.getElementById("titleSection");
 
-themeChanger();
-trendingFunction();
+const GlobalUrl = `${baseUrl}/search/multi?api_key=${apiKey}&query=`
+  document.body.classList.add(localStorage.getItem("userTheme")) || "light";
+// themeChanger();
+// trendingFunction();
+
 
 searchButton.addEventListener("click", () => {
 
   const movieName = searchBar.value;
-  // searchedTitle.innerHTML = `<h2>You have searched : ${movieName}</h2>`
-  // titleForSeachFunction(movieName);
-  const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${movieName}`
-  searchMovie(url, movieName);
+  searchMovie(GlobalUrl, movieName);
 });
 
 searchBar.addEventListener("keydown", function (e) {
 
   const movieName = searchBar.value;
-  // searchedTitle.innerHTML = `<h2>You have searched : ${movieName}</h2>`
-  // titleForSeachFunction(movieName);
-  const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${movieName}`
 
   if (e.key === "Enter") {
-    searchMovie(url, movieName);
+    searchMovie(GlobalUrl, movieName);
   }
 });
 
@@ -45,7 +42,7 @@ function titleForSeachFunction(name) {
 
 
 async function searchMovie(url, name) {
-  const moviedataJson = await fetch(url);
+  const moviedataJson = await fetch(`${url}${name}`);
 
   const movieData = await moviedataJson.json();
 
@@ -56,8 +53,10 @@ async function searchMovie(url, name) {
   searchResultArr.forEach((element) => {
 
     movieDetails(element.id);
-    trailer(element.id);
-    console.log(`movieId : `, element.id);
+    // trailer(element.id);
+    // console.log(`movieId : `, element.id);
+
+    // showUI(element) ;
   });
 
   // showUI(searchResultArr);
@@ -78,26 +77,6 @@ async function movieDetails(movieId) {
 
 }
 
-async function trendingFunction() {
-  const trendingUrl = `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`
-
-  const trendingDataJson = await fetch(trendingUrl);
-
-  const trendingData = await trendingDataJson.json();
-
-  const trendingDataArr = trendingData.results;
-
-  trendingDataArr.forEach((element) => {
-
-    showTrendingUI(element);
-    console.log(` trendingDataArray :`, element);
-  });
-  // showTrendingUI(trendingData)
-
-  console.log(` trendingdata :`, trendingData);
-
-
-}
 
 
 function showUI(data) {
@@ -129,27 +108,14 @@ function showUI(data) {
 
   card.innerHTML = `
                       <div class="cardImage" >
-                      <div class="playButton" >
-                      <a href="play.html"><img class="playButtonImg" src=${playSrc} alt=""></a>
-                      <a href="info.html"><img  class="infoButtonImg" src=${infoSrc}  alt=""></a>
+                      <img src=${srcUrl} alt="">                    
+                      <div class="cardButton" >
+                      <a href="play.html?id=${data.id}"><img class="playButtonImg" src=${playSrc} alt=""></a>
+                      <a href="info.html?id=${data.id}"><img  class="infoButtonImg" src=${infoSrc}  alt=""></a>           
+                      
                       </div>
                       
-                      <img src=${srcUrl} alt="">
-                      </div>
-
-                      <div class="cardInfo">
-                      <p>
-                      ${data.original_title}
-                      </p>
-                      <p>
-                      Aka : ${data.title}
-                      </p>
-                      <p>
-                      Overview : ${overviewWords}
-                      </p>
-                      <p>
-                      Language : ${data.original_language}
-                      </p>
+      
                       </div>
                    `
 
@@ -157,64 +123,6 @@ function showUI(data) {
 
 
 }
-function showTrendingUI(data) {
-  const card = document.createElement("div");
-
-  card.setAttribute("class", "card");
-  card.setAttribute("id", "card");
-
-  let srcUrl;
-  if (data.poster_path) {
-    srcUrl = ` https://image.tmdb.org/t/p/w500${data.poster_path}`
-  } else {
-    srcUrl = "images/demo.png "
-  }
-
-  // let srcUrl =` https://image.tmdb.org/t/p/w500${data.poster_path}  || images/demo.png `
-
-  let overviewWords;
-
-  if (data.overview.split(" ").length > 10) {
-    overviewWords = data.overview.split(" ").splice(0, 10).join(" ") + ".......";
-  }
-  else {
-    overviewWords = data.overview;
-  }
-
-  let playSrc = localStorage.getItem("playButtonImg") || "images/playDark.png";
-  let infoSrc = localStorage.getItem("infoButtonImg") || "images/infoDark.png";
-
-  card.innerHTML = `
-                      <div class="cardImage" >
-                      <div class="playButton" >
-                      <a href="play.html"><img class="playButtonImg" src=${playSrc} alt=""></a>
-                      <a href="info.html"><img  class="infoButtonImg" src=${infoSrc}  alt=""></a>
-                      
-                      
-                      </div>
-                      
-                      <img src=${srcUrl} alt="">
-                      
-                      <div class="cardInfo" ">
-                      <p>
-                      ${data.original_title}
-                      </p>
-                      <p>
-                      Aka : ${data.title}
-                      </p>
-                      <p>
-                      Overview : ${overviewWords}
-                      </p>
-                      Language : ${data.original_language}
-                      </p>
-                      </div>
-                      </div>
-                   `
-
-  show.appendChild(card);
-}
-
-
 
 
 
@@ -286,15 +194,3 @@ function themeChanger() {
 
 
 
-
-async function trailer(movieId) {
-  const url = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`;
-
-  const responseDataJson = await fetch(url);
-
-  const responseData = await responseDataJson.json();
-
-  console.log(responseData);
-
-
-}

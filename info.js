@@ -1,16 +1,20 @@
 
-import { apiKey, baseUrl } from "./api.js";
-
-const movieInfoUrl = `/movie/{movieId}?api_key=${apiKey}`;
-
-const posterUrl = `https://image.tmdb.org/t/p/original`
-const mainPage = document.getElementById("mainPage");
-
-
+import { apiKey,baseUrl} from "./api.js";
 
 const params = new URLSearchParams(window.location.search);
 const movieId = params.get("id");
 movieInfoFunction();
+
+const movieInfoUrl = `/movie/{movieId}?api_key=${apiKey}`;
+const trailerUrl = `${baseUrl}/movie/{movie_id}/videos?api_key=${apiKey}`
+
+
+const posterUrl = `https://image.tmdb.org/t/p/original`
+const mainPage = document.getElementById("mainPage");
+const exitImg = document.getElementById("exitImg");
+
+
+
 
 async function movieInfoFunction() {
     const movieInfoJson = await fetch(`${baseUrl}/movie/${movieId}?api_key=${apiKey}`);
@@ -59,3 +63,16 @@ function showMovieInfoUi(data) {
 }
 
 
+
+
+
+async function trailer() {
+
+  const trailerDataJson = await fetch(trailerUrl);
+
+  const trailerData = await trailerDataJson.json();
+
+  console.log(trailerData);
+
+
+}
