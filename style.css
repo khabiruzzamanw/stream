@@ -175,10 +175,8 @@ main {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  /* keeps it vertically centered */
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.377);
-  /* border-radius:25%; */
   width: 4rem;
   height: 100%;
   border-radius: 1rem;
@@ -200,7 +198,6 @@ main {
 .popularCarouselSection {
   width: 100%;
 }
-
 
 .popularCarousel {
   display: flex;
@@ -225,21 +222,46 @@ main {
   scroll-snap-type: x mandatory;
 }
 
+.thrillerCarouselSection,
+.crimeCarouselSection,
+.horrorCarouselSection,
+.romanceCarouselSection,
+.comedyCarouselSection {
+  width: 100%;
+}
+
+.thrillerCarousel,
+.crimeCarousel,
+.horrorCarousel,
+.romanceCarousel,
+.comedyCarousel {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
 
 .trendingCarousel,
 .popularCarousel,
-.topRatedCarousel {
+.topRatedCarousel,
+.thrillerCarousel,
+.crimeCarousel,
+.horrorCarousel,
+.romanceCarousel,
+.comedyCarousel {
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE/Edge */
 }
 
 .trendingCarousel::-webkit-scrollbar,
 .popularCarousel::-webkit-scrollbar,
-.topRatedCarousel::-webkit-scrollbar {
+.topRatedCarousel::-webkit-scrollbar,
+.thrillerCarousel::-webkit-scrollbar,
+.crimeCarousel::-webkit-scrollbar,
+.horrorCarousel::-webkit-scrollbar,
+.romanceCarousel::-webkit-scrollbar,
+.comedyCarousel::-webkit-scrollbar {
   display: none;
-  /* Chrome/Safari */
 }
 
 
@@ -287,7 +309,6 @@ main {
 
 .card:hover .cardButton {
   opacity: 0.9;
-
 }
 
 .playButtonImg,
