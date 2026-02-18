@@ -88,6 +88,23 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 0 0 2px var(--accent-color);
     }
 
+    /* Home link */
+    .homeLi a {
+      padding: 0.55rem 1rem;
+      border-radius: 50px;
+      background-color: var(--input-bg);
+      color: var(--font-color);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+
+    .homeLi a:hover {
+      opacity: 0.7;
+    }
+
     select {
       padding: 0.55rem 2rem 0.55rem 0.9rem;
       border-radius: 50px;
@@ -164,7 +181,6 @@
       border-radius: 12px;
       overflow: hidden;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      ;
       position: relative;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
@@ -175,7 +191,6 @@
 
     .cardImage {
       aspect-ratio: 2/3;
-      /* Standard movie poster ratio */
       background-color: #333;
       overflow: hidden;
       position: relative;
@@ -217,6 +232,123 @@
     .infoButtonImg:hover {
       transform: scale(1.1);
     }
+
+    /* ── Responsive ─────────────────────────────── */
+
+    /* Tablet */
+    @media (max-width: 768px) {
+      main {
+        padding-top: 3rem;
+      }
+
+      .mainPage {
+        width: 95%;
+      }
+
+      .searchSection {
+        margin-bottom: 2rem;
+      }
+
+      .searchRow ul {
+        flex-wrap: wrap;
+        border-radius: 16px;
+        padding: 0.6rem;
+      }
+
+      select {
+        flex: 1 1 100%;
+        border-radius: 10px;
+      }
+
+      .searchRow ul li .searchSection {
+        flex: 1 1 100%;
+        flex-wrap: wrap;
+      }
+
+      .searchBar {
+        flex: 1 1 auto;
+        width: auto;
+        min-width: 0;
+      }
+
+      .searchButton {
+        border-radius: 10px;
+        flex-shrink: 0;
+      }
+
+      .cardGrid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1.25rem;
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      main {
+        padding-top: 1.5rem;
+      }
+
+      .mainPage {
+        width: 100%;
+        padding: 0 1rem;
+      }
+
+      .searchSection {
+        margin-bottom: 1.5rem;
+      }
+
+      .searchRow ul {
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 14px;
+        padding: 0.75rem;
+        gap: 0.5rem;
+      }
+
+      .homeLi a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        border-radius: 8px;
+      }
+
+      select {
+        width: 100%;
+        border-radius: 8px;
+      }
+
+      .searchRow ul li .searchSection {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+      }
+
+      .searchBar {
+        width: 100%;
+        background-color: var(--input-bg);
+        border-radius: 8px;
+        padding: 0.65rem 0.75rem;
+        font-size: 1rem;
+      }
+
+      .searchButton {
+        width: 100%;
+        border-radius: 8px;
+        padding: 0.7rem;
+        text-align: center;
+      }
+
+      .cardGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.85rem;
+      }
+
+      .playButtonImg,
+      .infoButtonImg {
+        width: 38px;
+        height: 38px;
+      }
+    }
   </style>
   <title>stream/search</title>
 </head>
@@ -228,6 +360,7 @@
       <section class="searchSection" id="searchSection">
         <div class="searchRow">
           <ul>
+            <li class="homeLi"><a href="index.html">Home</a></li>
             <li class=""><select name="" id="">
                 <option value="default" disabled selected hidden>Select</option>
                 <option value="">Movies</option>
