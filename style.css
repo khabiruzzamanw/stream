@@ -132,37 +132,13 @@ main {
   row-gap: 4rem;
 }
 
-@media (max-width : 550px) {
-  nav {
-    width: 100%;
-  }
-
-  ul {
-    column-gap: 1rem;
-  }
-
-  .mainPage {
-    width: 90%;
-  }
-}
-
 .homeLi {
   margin-right: auto;
 }
 
 .heroSectionH2 {
   margin-bottom: 2rem;
-}
-
-.trendingCarouselSection {
-  width: 100%;
-}
-
-.trendingCarousel {
-  display: flex;
-  gap: 2rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .carouselWrapper {
@@ -175,12 +151,10 @@ main {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  /* keeps it vertically centered */
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.377);
-  /* border-radius:25%; */
-  width: 4rem;
-  height: 100%;
+  width: 2.5rem;
+  height: 60%;
   border-radius: 1rem;
   backdrop-filter: blur(4px);
 }
@@ -197,56 +171,42 @@ main {
   right: 0;
 }
 
-.popularCarouselSection {
-  width: 100%;
-}
-
-
-.popularCarousel {
-  display: flex;
-  gap: 2rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 0 1rem;
-}
-
-.popularCarousel::-webkit-scrollbar-button {
-  content: "right";
-}
-
-.topRatedCarouselSection {
-  width: 100%;
-}
-
-.topRatedCarousel {
-  display: flex;
-  gap: 2rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-}
-
-
 .trendingCarousel,
+.topRatedCarousel,
 .popularCarousel,
-.topRatedCarousel {
+.thrillerCarousel,
+.crimeCarousel,
+.horrorCarousel,
+.romanceCarousel,
+.comedyCarousel {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE/Edge */
 }
 
-.trendingCarousel::-webkit-scrollbar,
-.popularCarousel::-webkit-scrollbar,
-.topRatedCarousel::-webkit-scrollbar {
+.thrillerCarousel::-webkit-scrollbar,
+.crimeCarousel::-webkit-scrollbar,
+.horrorCarousel::-webkit-scrollbar,
+.romanceCarousel::-webkit-scrollbar,
+.comedyCarousel::-webkit-scrollbar {
   display: none;
-  /* Chrome/Safari */
 }
 
+.thrillerCarouselSection,
+.crimeCarouselSection,
+.horrorCarouselSection,
+.romanceCarouselSection,
+.comedyCarouselSection {
+  width: 100%;
+}
 
 .card {
   max-width: 100%;
   flex-shrink: 0;
-  width: 300px;
+  width: 200px;
   scroll-snap-align: start;
   border-radius: 1rem;
   overflow: hidden;
@@ -301,4 +261,22 @@ main {
 .infoButtonImg:hover {
   transform: scale(1.1);
   cursor: pointer;
+}
+
+
+
+
+
+@media (max-width : 550px) {
+  nav {
+    width: 100%;
+  }
+
+  ul {
+    column-gap: 1rem;
+  }
+
+  .mainPage {
+    width: 95%;
+  }
 }

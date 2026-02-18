@@ -3,8 +3,12 @@ import { apiKey, baseUrl } from "./api.js";
 const trendingUrl = `${baseUrl}/trending/all/day?api_key=${apiKey}`;
 const popularUrl = `${baseUrl}/movie/popular?api_key=${apiKey}`;
 const topRatedUrl = `${baseUrl}/movie/top_rated?api_key=${apiKey}`;
-const thrillerUrl = `${baseUrl}`;
-const HorrorUrl = `${baseUrl}`;
+const thrillerUrl = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=53`;
+const crimeUrl = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=80`;
+const horrorUrl = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=27`;
+const romanceUrl = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=10749`;
+const comedyUrl = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=35`;
+
 const posterUrl = `https://image.tmdb.org/t/p/w500`
 
 const trendingCarousel = document.getElementById("trendingCarousel");
@@ -18,7 +22,12 @@ async function init() {
   await Promise.all([
     trendingFunction(),
     popularFunction(),
-    topRatedFunction()
+    topRatedFunction(),
+    thrillerFunction(),
+    crimeFunction(),
+    horrorFunction(),
+    romanceFunction(),
+    comedyFunction()
   ]);
   scroll();
 }
@@ -97,6 +106,106 @@ async function topRatedFunction() {
   });
   //console log 
   console.log(` topRatedData :`, topRatedData);
+
+}
+async function thrillerFunction() {
+  const thrillerDataJson = await fetch(thrillerUrl);
+
+  const thrillerData = await thrillerDataJson.json();
+
+  const thrillerDataArr = thrillerData.results;
+
+  thrillerDataArr.forEach((element, index) => {
+
+    const card = carouselUi(element, index);
+    thrillerCarousel.appendChild(card);
+
+    //console log 
+
+    console.log(` thrillerDataArray :`, element, index);
+  });
+  //console log 
+  console.log(` thrillerData :`, thrillerData);
+
+}
+async function crimeFunction() {
+  const crimeDataJson = await fetch(crimeUrl);
+
+  const crimeData = await crimeDataJson.json();
+
+  const crimeDataArr = crimeData.results;
+
+  crimeDataArr.forEach((element, index) => {
+
+    const card = carouselUi(element, index);
+    crimeCarousel.appendChild(card);
+
+    //console log 
+
+    console.log(` crimeDataArray :`, element, index);
+  });
+  //console log 
+  console.log(` crimeData :`, crimeData);
+
+}
+async function horrorFunction() {
+  const horrorDataJson = await fetch(horrorUrl);
+
+  const horrorData = await horrorDataJson.json();
+
+  const horrorDataArr = horrorData.results;
+
+  horrorDataArr.forEach((element, index) => {
+
+    const card = carouselUi(element, index);
+    horrorCarousel.appendChild(card);
+
+    //console log 
+
+    console.log(` horrorDataArray :`, element, index);
+  });
+  //console log 
+  console.log(` horrorData :`, horrorData);
+
+}
+async function romanceFunction() {
+  const romanceDataJson = await fetch(romanceUrl);
+
+  const romanceData = await romanceDataJson.json();
+
+  const romanceDataArr = romanceData.results;
+
+  romanceDataArr.forEach((element, index) => {
+
+    const card = carouselUi(element, index);
+    romanceCarousel.appendChild(card);
+
+    //console log 
+
+    console.log(` romanceDataArray :`, element, index);
+  });
+  //console log 
+  console.log(` romanceData :`, romanceData);
+
+}
+async function comedyFunction() {
+  const comedyDataJson = await fetch(comedyUrl);
+
+  const comedyData = await comedyDataJson.json();
+
+  const comedyDataArr = comedyData.results;
+
+  comedyDataArr.forEach((element, index) => {
+
+    const card = carouselUi(element, index);
+    comedyCarousel.appendChild(card);
+
+    //console log 
+
+    console.log(` comedyDataArray :`, element, index);
+  });
+  //console log 
+  console.log(` comedyData :`, comedyData);
 
 }
 
