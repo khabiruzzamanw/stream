@@ -1,4 +1,5 @@
-import { apiKey, baseUrl } from "./api.js";
+import { apiKey,baseUrl} from "./api.js";
+
 
 const params    = new URLSearchParams(window.location.search);
 const movieId   = params.get("id");
