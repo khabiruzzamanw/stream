@@ -5,6 +5,7 @@ const movieInfoUrl = `/movie/{movieId}?api_key=${apiKey}`;
 
 const posterUrl = `https://image.tmdb.org/t/p/original`
 const mainPage = document.getElementById("mainPage");
+const exitImg = document.getElementById("exitImg");
 
 
 

@@ -3,9 +3,428 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="play.js"></script>
   <title>stream/play</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --surface: rgba(255,255,255,0.06);
+      --surface-hover: rgba(255,255,255,0.1);
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.18);
+      --text: #f5f5f0;
+      --text-dim: rgba(245,245,240,0.5);
+      --accent: #c8a96e;
+      --accent-dim: rgba(200,169,110,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ─────────────────────────────── */
+    .cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, opacity 0.2s;
+    }
+
+    .cursor-ring {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1px solid rgba(200,169,110,0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.12s ease-out, width 0.2s, height 0.2s, opacity 0.3s;
+    }
+
+    /* ── PLAYER WRAP ───────────────────────────────── */
+    #playerWrap {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background: #000;
+    }
+
+    /* ── IFRAME ────────────────────────────────────── */
+    #stream {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    #stream iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── CONTROLS OVERLAY ──────────────────────────── */
+    #controls {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    #controls.hidden {
+      opacity: 0;
+    }
+
+    #controls.hidden .ctrl-btn,
+    #controls.hidden .back-btn,
+    #controls.hidden .source-btn {
+      pointer-events: none;
+    }
+
+    #controls:not(.hidden) .ctrl-btn,
+    #controls:not(.hidden) .back-btn,
+    #controls:not(.hidden) .source-btn {
+      pointer-events: all;
+    }
+
+    /* ── TOP BAR ───────────────────────────────────── */
+    .ctrl-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, transparent 100%);
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--text-dim);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s;
+      cursor: none;
+      pointer-events: all;
+    }
+
+    .back-btn:hover { color: var(--text); }
+
+    .back-circle {
+      width: 30px; height: 30px;
+      border: 1px solid var(--border-strong);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .back-btn:hover .back-circle {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .back-circle svg { width: 12px; height: 12px; }
+
+    .ctrl-title {
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+    }
+
+    /* ── SOURCE SWITCHER ───────────────────────────── */
+    .source-switcher {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .source-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .source-btn {
+      padding: 0.3rem 0.7rem;
+      border-radius: 3px;
+      font-size: 0.72rem;
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: none;
+      transition: all 0.2s;
+      pointer-events: all;
+    }
+
+    .source-btn:hover,
+    .source-btn.active {
+      background: var(--accent-dim);
+      border-color: rgba(200,169,110,0.4);
+      color: var(--accent);
+    }
+
+    /* ── MIDDLE ────────────────────────────────────── */
+    .ctrl-middle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    /* ── BOTTOM BAR ────────────────────────────────── */
+    .ctrl-bottom {
+      padding: 1.5rem 2rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .ctrl-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .ctrl-left-group,
+    .ctrl-right-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .ctrl-btn {
+      width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--text-dim);
+      cursor: none;
+      transition: all 0.2s;
+      pointer-events: all;
+      backdrop-filter: blur(8px);
+      flex-shrink: 0;
+    }
+
+    .ctrl-btn svg { width: 15px; height: 15px; }
+
+    .ctrl-btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-strong);
+      color: var(--text);
+    }
+
+    .ctrl-btn.accent-btn:hover {
+      background: var(--accent-dim);
+      border-color: rgba(200,169,110,0.4);
+      color: var(--accent);
+    }
+
+    .ctrl-btn.fullscreen-btn {
+      border-radius: 6px;
+      width: auto;
+      padding: 0 0.85rem;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── VOLUME ────────────────────────────────────── */
+    .volume-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .volume-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      width: 2.5rem;
+      text-align: right;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 80px;
+      height: 2px;
+      background: var(--border-strong);
+      border-radius: 2px;
+      outline: none;
+      cursor: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: none;
+      transition: transform 0.15s;
+    }
+
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.3);
+    }
+
+    /* ── TOAST ─────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 6rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 1.25rem;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+      z-index: 20;
+      white-space: nowrap;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 600px) {
+      .ctrl-top { padding: 1rem 1.25rem; }
+      .ctrl-bottom { padding: 1rem 1.25rem; }
+      .ctrl-title { display: none; }
+      input[type=range] { width: 55px; }
+      .volume-label { display: none; }
+      .ctrl-btn { width: 34px; height: 34px; }
+      .ctrl-btn svg { width: 13px; height: 13px; }
+    }
+  </style>
 </head>
 <body>
-  
-</body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div id="toast"></div>
+
+  <div id="playerWrap">
+
+    <div id="stream"></div>
+
+    <div id="controls">
+
+      <!-- Top -->
+      <div class="ctrl-top">
+        <a href="javascript:history.back()" class="back-btn">
+          <span class="back-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+          </span>
+          <span>Back</span>
+        </a>
+
+        <span class="ctrl-title" id="movieTitle">Loading...</span>
+
+        <div class="source-switcher">
+          <span class="source-label">Source</span>
+          <button class="source-btn active" id="src1" onclick="switchSource(0)">1</button>
+          <button class="source-btn" id="src2" onclick="switchSource(1)">2</button>
+          <button class="source-btn" id="src3" onclick="switchSource(2)">3</button>
+        </div>
+      </div>
+
+      <!-- Middle -->
+      <div class="ctrl-middle"></div>
+
+      <!-- Bottom -->
+      <div class="ctrl-bottom">
+        <div class="ctrl-row">
+
+          <div class="ctrl-left-group">
+
+            <button class="ctrl-btn accent-btn" onclick="showToast('⏪ Rewind unavailable on embedded streams')" title="Rewind">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="1 4 1 10 7 10"/>
+                <path d="M3.51 15a9 9 0 1 0 .49-4.5"/>
+              </svg>
+            </button>
+
+            <button class="ctrl-btn accent-btn" onclick="showToast('⏩ Forward unavailable on embedded streams')" title="Forward">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10"/>
+                <path d="M20.49 15a9 9 0 1 1-.49-4.5"/>
+              </svg>
+            </button>
+
+            <div class="volume-wrap">
+              <button class="ctrl-btn" id="muteBtn" onclick="toggleMute()" title="Mute">
+                <svg id="volIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+              </button>
+              <input type="range" id="volumeSlider" min="0" max="100" value="100" oninput="updateVolume(this.value)">
+              <span class="volume-label" id="volumeLabel">100</span>
+            </div>
+
+          </div>
+
+          <div class="ctrl-right-group">
+
+            <button class="ctrl-btn" onclick="togglePiP()" title="Picture in Picture">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <rect x="13" y="12" width="8" height="6" rx="1"/>
+              </svg>
+            </button>
+
+            <button class="ctrl-btn fullscreen-btn" onclick="toggleFullscreen()" id="fsBtn" title="Fullscreen">
+              <svg id="fsIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+              </svg>
+              <span id="fsLabel">Fullscreen</span>
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  </body>
 </html>

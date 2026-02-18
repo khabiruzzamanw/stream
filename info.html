@@ -1,158 +1,625 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="info.js"></script>
     <title>stream/info</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #ffffff;
-            --accent-color: #5c7e8f;
-            --card-color: #d4dde290;
-            --button-color: #ffffff;
-            --glass-effect-color: rgba(255, 255, 255, 0);
-            --border-color: rgba(255, 255, 255, 0.15);
-            --font-color: #111111;
-            --box-shadow-color: #a2a2a220;
-        }
-
-
-        .dark {
-            --bg-color: #111111;
-            --accent-color: rgba(255, 255, 255, 0.15);
-            --card-color: #22222290;
-            --button-color: #111111;
-            --glass-effect-color: rgba(255, 255, 255, 0);
-            --border-color: rgba(255, 255, 255, 0.15);
-            --font-color: #ffffff;
-            --box-shadow-color: #a2a2a220;
+            --bg: #0a0a0a;
+            --surface: rgba(255,255,255,0.04);
+            --surface-hover: rgba(255,255,255,0.07);
+            --border: rgba(255,255,255,0.08);
+            --border-strong: rgba(255,255,255,0.15);
+            --text-primary: #f5f5f0;
+            --text-secondary: rgba(245,245,240,0.55);
+            --text-muted: rgba(245,245,240,0.3);
+            --accent: #c8a96e;
+            --accent-dim: rgba(200,169,110,0.15);
+            --red: #e05252;
         }
 
         * {
-            padding: 0;
-            margin: 0;
-            border: none;
-            list-style: none;
-            outline: none;
-            text-decoration: none;
+            padding: 0; margin: 0; border: none;
+            list-style: none; outline: none;
+            text-decoration: none; box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        img {
-            max-width: 100%;
-            object-fit: cover;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
-            width: 100%;
-            min-height: 100vh;
-            font-family: Arial, Helvetica, sans-serif;
-            color: var(--font-color);
-            line-height: 1.6;
-            background-color: var(--bg-color);
+            width: 100%; min-height: 100vh;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-primary);
+            background: var(--bg);
+            overflow-x: hidden;
         }
 
-main {
-    position: relative;
-    min-height: 100vh;
-    width: 100%;
-    overflow: hidden;
-    --bg-image: none;
-}
+        /* ── MAIN / BACKDROP ─────────────────────────────── */
+        main {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            --bg-image: none;
+        }
 
-/* Background Image Layer */
-main::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: var(--bg-image);
-    background-size: cover;
-    background-position: center center; /* changed from top center */
-    background-repeat: no-repeat;
-    z-index: 0;
-}
+        main::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center 20%;
+            background-repeat: no-repeat;
+            z-index: 0;
+            transform: scale(1.03);
+            filter: brightness(0.35) saturate(0.8);
+        }
 
-/* Make the gradient stronger to blend better */
-main::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, 
-        rgba(0, 0, 0, 0.3) 0%, 
-        rgba(0, 0, 0, 0.6) 50%, 
-        rgba(0, 0, 0, 0.95) 100%);
-    z-index: 1;
-}
+        main::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(to right, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.4) 55%, rgba(10,10,10,0.1) 100%),
+                linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.7) 30%, transparent 70%);
+            z-index: 1;
+        }
 
-.moviePage {
-    position: absolute;
-    bottom:2rem;
-    z-index: 2;
-    max-height: 100vh;
-    display: flex;
-    align-items: flex-end; /* pushes content to bottom */
-    padding:0 0 0  2rem ;
-}
+        /* ── EXIT ────────────────────────────────────────── */
+        .exit {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 400;
+            transition: color 0.2s;
+        }
 
-.movieInfo {
-    /* Remove absolute positioning */
-    max-width: 100%;
-    color: #ffffff;
-    display:flex;
-    gap:2rem;
-    flex-direction: column;
-}
+        .exit:hover { color: var(--text-primary); }
 
-.movieStat {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 2rem;
-    border-radius: 12px;
-    color: #ffffff;
-    display:flex;
-    flex-direction: column;
-}
+        .exit-arrow {
+            width: 28px; height: 28px;
+            border: 1px solid var(--border-strong);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: border-color 0.2s, background 0.2s;
+        }
 
-.movieStat p {
-    color: #ffffff;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-}
+        .exit:hover .exit-arrow {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
 
-.genreDiv{
-    display:flex;
-    column-gap: 1rem;
-    /* flex-direction: column; */
-}
+        .exit-arrow svg { width: 12px; height: 12px; }
 
-.genreDiv p {
-    padding:0.5rem;
-    border:1px solid var(--border-color);
-    border-radius:0.5rem;
-}
+        /* ── SCROLL CONTAINER ────────────────────────────── */
+        .scroll-wrap {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        /* ── MOVIE PAGE ──────────────────────────────────── */
+        .moviePage {
+            width: 100%;
+            padding: 6rem 4rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 2rem;
+            align-items: end;
+        }
+
+        /* ── LEFT COLUMN ─────────────────────────────────── */
+        .movieLeft {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .movie-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--accent);
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .movie-badge::before {
+            content: "";
+            width: 18px; height: 1px;
+            background: var(--accent);
+        }
+
+        .movie-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 6vw, 5.5rem);
+            font-weight: 300;
+            line-height: 1.0;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        .movie-title em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .movie-meta-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .meta-item svg { width: 13px; height: 13px; opacity: 0.6; }
+
+        .meta-divider {
+            width: 3px; height: 3px;
+            border-radius: 50%;
+            background: var(--border-strong);
+        }
+
+        .rating-badge {
+            background: var(--accent-dim);
+            border: 1px solid rgba(200,169,110,0.3);
+            color: var(--accent);
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .movie-description {
+            font-size: 0.92rem;
+            line-height: 1.75;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 540px;
+        }
+
+        /* ── GENRE TAGS ──────────────────────────────────── */
+        .genreDiv {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .genreDiv span {
+            padding: 0.3rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 400;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .genreDiv span:hover {
+            border-color: var(--border-strong);
+            color: var(--text-secondary);
+        }
+
+        /* ── CAST ────────────────────────────────────────── */
+        .cast-section { display: flex; flex-direction: column; gap: 0.6rem; }
+
+        .cast-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .cast-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 1.2rem;
+        }
+
+        .cast-name {
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            position: relative;
+        }
+
+        .cast-name::after {
+            content: "";
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            height: 1px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.25s;
+        }
+
+        .cast-name:hover::after { transform: scaleX(1); }
+        .cast-name:hover { color: var(--text-primary); }
+
+        /* ── BUTTONS ─────────────────────────────────────── */
+        .movieButtons {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            letter-spacing: 0.06em;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: #0a0a0a;
+        }
+
+        .btn-primary:hover {
+            background: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .btn-ghost {
+            background: var(--surface);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+        }
+
+        .btn-ghost:hover {
+            background: var(--surface-hover);
+            border-color: var(--border-strong);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        .btn-icon {
+            width: 44px; height: 44px;
+            padding: 0;
+            justify-content: center;
+            background: var(--surface);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            border-radius: 50%;
+        }
+
+        .btn-icon:hover {
+            background: var(--surface-hover);
+            border-color: var(--border-strong);
+            color: var(--text-primary);
+        }
+
+        /* ── RIGHT STAT PANEL ────────────────────────────── */
+        .movieStat {
+            background: rgba(10,10,10,0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .stat-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-key {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .stat-divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .stat-score {
+            display: flex;
+            align-items: baseline;
+            gap: 0.3rem;
+        }
+
+        .stat-score-big {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-score-max {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .score-bar-wrap {
+            height: 2px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 0.4rem;
+        }
+
+        .score-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--accent), rgba(200,169,110,0.5));
+            border-radius: 2px;
+            width: 82%;
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────────── */
+        @media (max-width: 1024px) {
+            .moviePage {
+                grid-template-columns: 1fr;
+                padding: 5rem 2.5rem 2.5rem;
+                gap: 1.5rem;
+            }
+
+            .movieStat {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem 1.5rem;
+            }
+
+            .stat-divider { display: none; }
+            .movie-title { font-size: clamp(2.4rem, 5vw, 4rem); }
+        }
+
+        @media (max-width: 768px) {
+            .moviePage {
+                padding: 4.5rem 1.5rem 2rem;
+            }
+
+            .movieStat {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 1.25rem;
+            }
+
+            .movie-description { max-width: 100%; font-size: 0.87rem; }
+
+            .movieButtons { gap: 0.6rem; }
+
+            .btn { padding: 0.65rem 1.25rem; font-size: 0.8rem; }
+            .btn-icon { width: 40px; height: 40px; }
+        }
+
+        @media (max-width: 480px) {
+            .moviePage {
+                padding: 4rem 1.2rem 1.5rem;
+            }
+
+            .movieStat {
+                grid-template-columns: 1fr 1fr;
+                padding: 1rem;
+                gap: 0.9rem 1rem;
+            }
+
+            .movie-title { font-size: 2.2rem; }
+
+            .movieButtons { gap: 0.5rem; }
+
+            .btn-primary { flex: 1; justify-content: center; }
+
+            .cast-list { gap: 0.3rem 1rem; }
+        }
+
+        @media (max-width: 360px) {
+            .moviePage { padding: 3.5rem 1rem 1.25rem; }
+            .movie-title { font-size: 1.9rem; }
+            .movieStat { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 
-<body class="light">
+<body>
     <main class="mainPage" id="mainPage">
-        <section class="moviePage" id="moviePage">
 
-            <div class="movieInfo" id="movieInfo">
+        <a href="index.html" class="exit" id="exit">
+            <span class="exit-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 5l-7 7 7 7"/>
+                </svg>
+            </span>
+            <span>Back</span>
+        </a>
+
+        <div class="scroll-wrap">
+            <section class="moviePage" id="moviePage">
+
+                <!-- LEFT: Main Info -->
+                <div class="movieLeft" id="movieLeft">
+
+                    <span class="movie-badge" id="movie-badge">Now Streaming</span>
+
+                    <h1 class="movie-title" id="movie-title"></h1>
+
+                    <div class="movie-meta-row" id="movie-meta-row">
+                        <span class="rating-badge" id="content-rating"></span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-item" id="meta-year">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            <span id="year-text"></span>
+                        </span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-item" id="meta-runtime">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            <span id="runtime-text"></span>
+                        </span>
+                        <span class="meta-divider"></span>
+                        <span class="meta-item" id="meta-score">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                            <span id="score-text"></span>
+                        </span>
+                    </div>
+
+                    <p class="movie-description" id="movie-description"></p>
+
+                    <div class="genreDiv" id="genreDiv"></div>
+
+                    <div class="cast-section">
+                        <span class="cast-label">Director</span>
+                        <div class="cast-list" id="directorList"></div>
+                    </div>
+
+                    <div class="cast-section" id="castSection">
+                        <span class="cast-label">Cast</span>
+                        <div class="cast-list" id="castList"></div>
+                    </div>
+
+                    <div class="movieButtons" id="movieButtons">
+                        <button class="btn btn-primary" id="btn-play">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                            Play Now
+                        </button>
+                        <button class="btn btn-ghost" id="btn-trailer">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                                <line x1="2" y1="3" x2="2" y2="21"/>
+                            </svg>
+                            Trailer
+                        </button>
+                        <button class="btn btn-ghost" id="btn-watchlist">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                            Watchlist
+                        </button>
+                        <button class="btn btn-icon" id="btn-share" title="Share">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT: Stat Panel -->
                 <div class="movieStat" id="movieStat">
 
+                    <div class="stat-row">
+                        <span class="stat-key">Audience Score</span>
+                        <div class="stat-score">
+                            <span class="stat-score-big" id="stat-score-big"></span>
+                            <span class="stat-score-max">/ 10</span>
+                        </div>
+                        <div class="score-bar-wrap">
+                            <div class="score-bar" id="score-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-divider"></div>
+
+                    <div class="stat-row">
+                        <span class="stat-key">Studio</span>
+                        <span class="stat-value" id="stat-studio"></span>
+                    </div>
+
+                    <div class="stat-divider"></div>
+
+                    <div class="stat-row">
+                        <span class="stat-key">Release Date</span>
+                        <span class="stat-value" id="stat-release"></span>
+                    </div>
+
+                    <div class="stat-divider"></div>
+
+                    <div class="stat-row">
+                        <span class="stat-key">Box Office</span>
+                        <span class="stat-value" id="stat-boxoffice"></span>
+                    </div>
+
+                    <div class="stat-divider"></div>
+
+                    <div class="stat-row">
+                        <span class="stat-key">Language</span>
+                        <span class="stat-value" id="stat-language"></span>
+                    </div>
+
+                    <div class="stat-divider"></div>
+
+                    <div class="stat-row">
+                        <span class="stat-key">Country</span>
+                        <span class="stat-value" id="stat-country"></span>
+                    </div>
+
+                    <div class="stat-divider"></div>
+
+                    <div class="stat-row">
+                        <span class="stat-key">Budget</span>
+                        <span class="stat-value" id="stat-budget"></span>
+                    </div>
+
                 </div>
 
-                <div class="movieButtons" id="movieButtons">
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 </body>
-
 </html>
