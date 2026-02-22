@@ -1,5 +1,6 @@
 import { apiKey, baseUrl } from "./api.js";
 
+const landingPageUrl = `${baseUrl}/trending/all/week?api_key=${apiKey}`;
 const trendingUrl = `${baseUrl}/trending/all/day?api_key=${apiKey}`;
 const popularUrl = `${baseUrl}/movie/popular?api_key=${apiKey}`;
 const topRatedUrl = `${baseUrl}/movie/top_rated?api_key=${apiKey}`;
@@ -14,12 +15,19 @@ const posterUrl = `https://image.tmdb.org/t/p/w500`
 const trendingCarousel = document.getElementById("trendingCarousel");
 const popularCarousel = document.getElementById("popularCarousel");
 const topRatedCarousel = document.getElementById("topRatedCarousel");
+const thrillerCarousel = document.getElementById("thrillerCarousel");
+const crimeCarousel = document.getElementById("crimeCarousel");
+const horrorCarousel = document.getElementById("horrorCarousel");
+const romanceCarousel = document.getElementById("romanceCarousel");
+const comedyCarousel = document.getElementById("comedyCarousel");
 
 // Instead of calling them one by one, run them in parallel
 async function init() {
   themeChanger();
+  scroll();
 
   await Promise.all([
+    landingPageFunction(),
     trendingFunction(),
     popularFunction(),
     topRatedFunction(),
@@ -29,7 +37,6 @@ async function init() {
     romanceFunction(),
     comedyFunction()
   ]);
-  scroll();
 }
 
 init();
@@ -41,6 +48,27 @@ init();
 
 
 
+async function landingPageFunction() {
+
+  const landingPageDataJson = await fetch(landingPageUrl);
+
+  const landingPageData = await landingPageDataJson.json();
+
+  const landingPageDataArr = landingPageData.results;
+
+  landingPageDataArr.forEach((element, index) => {
+
+    const card = carouselUi(element, index);
+    //console log 
+
+    console.log(` landingPageDataArray :`, element, index);
+  });
+
+  //console log 
+  console.log(` landingPagedata :`, landingPageData);
+
+
+}
 async function trendingFunction() {
 
   const trendingDataJson = await fetch(trendingUrl);
@@ -221,7 +249,7 @@ function carouselUi(data, index) {
 
   let srcUrl;
   if (data.poster_path) {
-    srcUrl = ` ${posterUrl}${data.poster_path}`
+    srcUrl = `${posterUrl}${data.poster_path}`
   } else {
     srcUrl = "images/demo.png "
   }
@@ -239,16 +267,10 @@ function carouselUi(data, index) {
   let infoSrc = localStorage.getItem("infoButtonImg") || "images/infoDark.png";
 
   card.innerHTML = `
-                      <div class="cardImage" >
-                      <img src=${srcUrl} alt="">                    
-                      <div class="cardButton" >
-                      <a href="play.html?id=${data.id}"><img class="playButtonImg" src=${playSrc} alt=""></a>
-                      <a href="info.html?id=${data.id}"><img  class="infoButtonImg" src=${infoSrc}  alt=""></a>           
-                      
-                      </div>
-                      
-      
-                      </div>
+                      <a href="info.html?id=${data.id}" class="cardButtonAnchor">
+                       <img src=${srcUrl} alt="" class="cardImage" loading="lazy" >
+                       <span class="hoveredCard"></span>                 
+                      </a> 
                    `
 
   //console log
