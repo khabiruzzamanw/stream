@@ -1,17 +1,21 @@
 
 import { apiKey, baseUrl } from "./api.js";
 
-const movieInfoUrl = `/movie/{movieId}?api_key=${apiKey}`;
-
-const posterUrl = `https://image.tmdb.org/t/p/original`
-const mainPage = document.getElementById("mainPage");
-const exitImg = document.getElementById("exitImg");
-
-
-
 const params = new URLSearchParams(window.location.search);
 const movieId = params.get("id");
 movieInfoFunction();
+
+const movieInfoUrl = `/movie/{movieId}?api_key=${apiKey}`;
+const trailerUrl = `${baseUrl}/movie/{movie_id}/videos?api_key=${apiKey}`
+
+
+const posterUrl = `https://image.tmdb.org/t/p/original`
+const mainPage = document.getElementById("mainPage");
+const exitImage = document.getElementById("exitImage");
+
+document.body.classList.add(localStorage.getItem("userTheme")) || "light";
+
+
 
 async function movieInfoFunction() {
     const movieInfoJson = await fetch(`${baseUrl}/movie/${movieId}?api_key=${apiKey}`);
@@ -25,7 +29,7 @@ async function movieInfoFunction() {
     } else {
         srcUrl = `${posterUrl}${movieInfoData.backdrop_path}` || `${posterUrl}${movieInfoData.poster_path}`
     }
-    mainPage.style.setProperty("--bg-image", `url(${srcUrl})`);
+    mainPage.style.background = (`url(${srcUrl})`);
     console.log(movieInfoData);
     showMovieInfoUi(movieInfoData)
 
@@ -43,20 +47,49 @@ function showMovieInfoUi(data) {
     movieButtons.innerHTML = `
         <a href="play.html?id=${data.id}">
             <img class="playButtonImg" src="${playSrc}" alt="">
+            Stream
         </a>
     `;
 
     movieStat.innerHTML = `
-        <p>${data.original_title}</p>
-        <p>Aka : ${data.title}</p>
-        <p>Overview : ${data.overview}</p>
-        <p>Language : ${data.spoken_languages[0]?.english_name || "N/A"}</p>
-        <p>Status : ${data.status}</p>
-        <p>Release : ${data.release_date}</p>
-        <p>Budget : ${data.budget}</p>
-        <p>Revenue : ${data.revenue}</p>
-        <div class="genreDiv">${genre}</div>
+    <div class="movieTitleDiv">
+        <p class="movieTitle">${data.original_title}</p>
+        <p class="movieTagLine">${data.tagline}</p>
+    </div>
+    <div class="movieTiming">
+        <div><img src="images/runTimeDark.png" alt=""><span>${data.runtime} minutes</span></div>
+        <div><img src="images/releaseDark.png" alt=""><span>${data.release_date}</span></div>
+        <div><img src="" alt=""><span>${data.status}</span></div>       
+        <div><img src="images/soundDark.png" alt=""><span>${data.spoken_languages[0]?.english_name || "N/A"}</span></div>     
+
+    </div>
+    <div class="akaTitleDiv" > 
+        <span class="akaBar"></span>
+    <div class="akaTitle" > 
+        <span>Also Known As</span>
+        <span>${data.title}</span>
+    </div>
+    </div>
+    <div class="genreDiv">${genre}</div>
+        <p>${data.overview}</p>
+    <div class="costCollection">
+        <img src="" alt=""><span>Budget : ${data.budget} $</span>
+        <img src="" alt=""><span>Revenue : ${data.revenue} $</span>
+    </div>
     `;
 }
 
 
+
+
+
+async function trailer() {
+
+    const trailerDataJson = await fetch(trailerUrl);
+
+    const trailerData = await trailerDataJson.json();
+
+    console.log(trailerData);
+
+
+}

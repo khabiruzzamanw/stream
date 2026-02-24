@@ -5,68 +5,147 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <script type="module" src="index.js"></script>
+  <script type="module" src="index.js" defer></script>
   <title>stream</title>
 </head>
 
-<body class='light'>
+<body class="light">
+
   <header>
     <nav>
       <ul>
-        <li class="homeLi" id=""><a href="#" class="" id="">Home</a></li>
-        <li class="" id="">
-          <select name="Catagory" id="selection" class="selection" required>
-            <option value="default" disabled selected hidden>Select</option>
-            <option value="anime">English</option>
-            <option value="manga">Hindi</option>
-            <option value="manga">Bangla</option>
-            <option value="character">others</option>
-          </select>
-        </li>
+        <li class="homeLi"><a href="index.html">stream</a></li>
         <li class="searchLi" id="searchLi">
           <button class="toSearch" id="toSearch">
             <a href="search.html"><img src="images/searchLight.svg" alt="" id="toSearchImg"></a>
           </button>
         </li>
-        <li class="" id=""><a href="#" class="toGo" id="">Movies</a></li>
-        <li class="" id=""><a href="#" class="toGo" id="">Tv-shows</a></li>
-        <li class="" id=""> <img id="theme" class="theme" src="images/lightMode.svg" alt="" />
-        </li>
+        <li><a href="#" class="toGo">Movies</a></li>
+        <li><a href="#" class="toGo">Tv-shows</a></li>
+        <li><a href="#" class="toGo">Anime</a></li>
+        <li><img id="theme" class="theme" src="images/lightMode.svg" alt=""></li>
       </ul>
     </nav>
   </header>
 
   <main>
+
+    <section class="landingPage" id="landingPage">
+      <div class="landingPageInfo">
+        <p class="title">A Silent Voice</p>
+        <p class="overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, commodi quae nemo omnis illo
+          at numquam eius aspernatur error labore.</p>
+        <div class="genre">
+          <p>Romance</p>
+          <p>Slice of Life</p>
+        </div>
+        <div class="Buttons">
+          <a href="play.html?id=${data.id}"><img class="play" src="images/playLight.png" alt="">Play</a>
+          <a href="info.html?id=${data.id}"><img class="info" src="images/infoLight.png" alt="">Info</a>
+        </div>
+      </div>
+    </section>
+
     <section class="mainPage" id="mainPage">
-
-
-
-
-
 
       <section class="trendingCarouselSection" id="trendingCarouselSection">
         <h2 class="heroSectionH2">Trending</h2>
         <div class="carouselWrapper">
-          <button class="scrollButton leftArrow"><img src="images/swipeLeftDark.png" alt=""
-              class="leftArrowImage"></button>
-          <div class="trendingCarousel carousel" id="trendingCarousel"></div>
+          <button class="scrollButton leftArrow">
+            <img src="images/swipeLeftDark.png" alt="" class="leftArrowImage">
+          </button>
+          <div class="trendingCarousel carousel" id="trendingCarousel">
+
+            <!-- <div class="card">
+              <img src="images/demo.png" alt="" id="cardImage">
+              <div class="cardButton">
+                <a href="play.html?id=${data.id}"><img class="playButtonImg" src="images/playLight.png" alt=""></a>
+                <a href="info.html?id=${data.id}"><img class="infoButtonImg" src="images/infoLight.png" alt=""></a>
+              </div>
+            </div>
+            <div class="card">
+              <img src="images/demo.png" alt="" id="cardImage">
+              <div class="cardButton">
+                <a href="play.html?id=${data.id}"><img class="playButtonImg" src="images/playLight.png" alt=""></a>
+                <a href="info.html?id=${data.id}"><img class="infoButtonImg" src="images/infoLight.png" alt=""></a>
+              </div>
+            </div>
+            <div class="card">
+              <img src="images/demo.png" alt="" id="cardImage">
+              <div class="cardButton">
+                <a href="play.html?id=${data.id}"><img class="playButtonImg" src="images/playLight.png" alt=""></a>
+                <a href="info.html?id=${data.id}"><img class="infoButtonImg" src="images/infoLight.png" alt=""></a>
+              </div>
+            </div>
+            <div class="card">
+              <img src="images/demo.png" alt="" id="cardImage">
+              <div class="cardButton">
+                <a href="play.html?id=${data.id}"><img class="playButtonImg" src="images/playLight.png" alt=""></a>
+                <a href="info.html?id=${data.id}"><img class="infoButtonImg" src="images/infoLight.png" alt=""></a>
+              </div>
+            </div>
+            <div class="card">
+              <img src="images/demo.png" alt="" id="cardImage">
+              <div class="cardButton">
+                <a href="play.html?id=${data.id}"><img class="playButtonImg" src="images/playLight.png" alt=""></a>
+                <a href="info.html?id=${data.id}"><img class="infoButtonImg" src="images/infoLight.png" alt=""></a>
+              </div>
+            </div>
+            <div class="card">
+              <img src="images/demo.png" alt="" id="cardImage">
+              <div class="cardButton">
+                <a href="play.html?id=${data.id}"><img class="playButtonImg" src="images/playLight.png" alt=""></a>
+                <a href="info.html?id=${data.id}"><img class="infoButtonImg" src="images/infoLight.png" alt=""></a>
+              </div>
+            </div>
+            <div class="card">
+              <img src="images/demo.png" alt="" id="cardImage">
+              <div class="cardButton">
+                <a href="play.html?id=${data.id}"><img class="playButtonImg" src="images/playLight.png" alt=""></a>
+                <a href="info.html?id=${data.id}"><img class="infoButtonImg" src="images/infoLight.png" alt=""></a>
+              </div>
+            </div>
+            <div class="card">
+              <img src="images/demo.png" alt="" id="cardImage">
+              <div class="cardButton">
+                <a href="play.html?id=${data.id}"><img class="playButtonImg" src="images/playLight.png" alt=""></a>
+                <a href="info.html?id=${data.id}"><img class="infoButtonImg" src="images/infoLight.png" alt=""></a>
+              </div>
+            </div>
+            <div class="card">
+              <img src="images/demo.png" alt="" id="cardImage">
+              <div class="cardButton">
+                <a href="play.html?id=${data.id}"><img class="playButtonImg" src="images/playLight.png" alt=""></a>
+                <a href="info.html?id=${data.id}"><img class="infoButtonImg" src="images/infoLight.png" alt=""></a>
+              </div>
+            </div>
+            <div class="card">
+              <img src="images/demo.png" alt="" id="cardImage">
+              <div class="cardButton">
+                <a href="play.html?id=${data.id}"><img class="playButtonImg" src="images/playLight.png" alt=""></a>
+                <a href="info.html?id=${data.id}"><img class="infoButtonImg" src="images/infoLight.png" alt=""></a>
+              </div>
+            </div> -->
+
+          </div>
           <button class="scrollButton rightArrow"><img src="images/swipeRightDark.png" alt=""
               class="rightArrowImage"></button>
         </div>
       </section>
+
       <section class="popularCarouselSection" id="popularCarouselSection">
         <h2 class="heroSectionH2">Popular</h2>
         <div class="carouselWrapper">
           <button class="scrollButton leftArrow"><img src="images/swipeLeftDark.png" alt=""
               class="leftArrowImage"></button>
           <div class="popularCarousel carousel" id="popularCarousel"></div>
-          <button class="scrollButton rightArrow"><img src="images/swipeRightDark.png" alt="" class="rightArrowImage">
-          </button>
+          <button class="scrollButton rightArrow"><img src="images/swipeRightDark.png" alt=""
+              class="rightArrowImage"></button>
         </div>
-
       </section>
+
       <section class="topRatedCarouselSection" id="topRatedCarouselSection">
-        <h2 class="heroSectionH2">Top-Rated</h2>
+        <h2 class="heroSectionH2">Top Rated</h2>
         <div class="carouselWrapper">
           <button class="scrollButton leftArrow"><img src="images/swipeLeftDark.png" alt=""
               class="leftArrowImage"></button>
@@ -74,8 +153,8 @@
           <button class="scrollButton rightArrow"><img src="images/swipeRightDark.png" alt=""
               class="rightArrowImage"></button>
         </div>
-
       </section>
+
       <section class="thrillerCarouselSection" id="thrillerCarouselSection">
         <h2 class="heroSectionH2">Thriller</h2>
         <div class="carouselWrapper">
@@ -85,19 +164,56 @@
           <button class="scrollButton rightArrow"><img src="images/swipeRightDark.png" alt=""
               class="rightArrowImage"></button>
         </div>
-
       </section>
 
+      <section class="crimeCarouselSection" id="crimeCarouselSection">
+        <h2 class="heroSectionH2">Crime</h2>
+        <div class="carouselWrapper">
+          <button class="scrollButton leftArrow"><img src="images/swipeLeftDark.png" alt=""
+              class="leftArrowImage"></button>
+          <div class="crimeCarousel carousel" id="crimeCarousel"></div>
+          <button class="scrollButton rightArrow"><img src="images/swipeRightDark.png" alt=""
+              class="rightArrowImage"></button>
+        </div>
+      </section>
 
+      <section class="horrorCarouselSection" id="horrorCarouselSection">
+        <h2 class="heroSectionH2">Horror</h2>
+        <div class="carouselWrapper">
+          <button class="scrollButton leftArrow"><img src="images/swipeLeftDark.png" alt=""
+              class="leftArrowImage"></button>
+          <div class="horrorCarousel carousel" id="horrorCarousel"></div>
+          <button class="scrollButton rightArrow"><img src="images/swipeRightDark.png" alt=""
+              class="rightArrowImage"></button>
+        </div>
+      </section>
 
+      <section class="romanceCarouselSection" id="romanceCarouselSection">
+        <h2 class="heroSectionH2">Romance</h2>
+        <div class="carouselWrapper">
+          <button class="scrollButton leftArrow"><img src="images/swipeLeftDark.png" alt=""
+              class="leftArrowImage"></button>
+          <div class="romanceCarousel carousel" id="romanceCarousel"></div>
+          <button class="scrollButton rightArrow"><img src="images/swipeRightDark.png" alt=""
+              class="rightArrowImage"></button>
+        </div>
+      </section>
 
+      <section class="comedyCarouselSection" id="comedyCarouselSection">
+        <h2 class="heroSectionH2">Comedy</h2>
+        <div class="carouselWrapper">
+          <button class="scrollButton leftArrow"><img src="images/swipeLeftDark.png" alt=""
+              class="leftArrowImage"></button>
+          <div class="comedyCarousel carousel" id="comedyCarousel"></div>
+          <button class="scrollButton rightArrow"><img src="images/swipeRightDark.png" alt=""
+              class="rightArrowImage"></button>
+        </div>
+      </section>
 
     </section>
   </main>
-  <footer>
 
-  </footer>
-  <!-- <script src="index.js"></script> -->
+  <footer></footer>
 </body>
 
 </html>

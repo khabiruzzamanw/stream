@@ -1,33 +1,38 @@
 :root {
-  --bg-color: #ffffff;
-  --accent-color: #5c7e8f;
-  --card-color: #d4dde290;
-  --button-color: #ffffff;
-  --glass-effect-color: rgba(255, 255, 255, 0);
-  --border-color: rgba(255, 255, 255, 0.15);
-  --font-color: #111111;
-  --box-shadow-color: #a2a2a220;
-}
+  --bg-color: white;
+  --container-color: rgb(200, 200, 200);
+  --card-color: rgb(180, 180, 180);
+  --font-color: black;
+  --accent-color: rgb(0, 140, 255);
+  --shadow-color: rgba(250, 250, 250, 0.9);
+  --border-color: rgba(126, 126, 126, 0.8);
+  --button-color: rgb(50, 50, 50);
+  --glass-color: rgba(0, 0, 0, 0.15);
 
+
+}
 
 .dark {
-  --bg-color: #111111;
-  --accent-color: rgba(255, 255, 255, 0.15);
-  --card-color: #22222290;
-  --button-color: #111111;
-  --glass-effect-color: rgba(255, 255, 255, 0);
-  --border-color: rgba(255, 255, 255, 0.15);
-  --font-color: #ffffff;
-  --box-shadow-color: #a2a2a220;
+  --bg-color: black;
+  --container-color: rgb(30, 30, 30);
+  --card-color: rgb(60, 60, 60);
+  --font-color: white;
+  --accent-color: rgb(255, 0, 0);
+  --shadow-color: rgba(10, 10, 10, 0.9);
+  --border-color: rgba(126, 126, 126, 0.8);
+  --button-color: rgb(200, 200, 200);
 }
 
-* {
+*,
+*::before,
+*::after {
   padding: 0;
   margin: 0;
   border: none;
   list-style: none;
   outline: none;
   text-decoration: none;
+  box-sizing: border-box;
 }
 
 html {
@@ -37,41 +42,47 @@ html {
 img {
   max-width: 100%;
   object-fit: cover;
+  display: block;
 }
+
 
 body {
   width: 100%;
   min-height: 100vh;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
   color: var(--font-color);
-  line-height: 1.6;
   background-color: var(--bg-color);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
 }
 
 header {
   width: 100%;
   position: fixed;
   top: 0;
-  z-index: 100;
+  z-index: 200;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 nav {
   width: 80%;
-  background-color: var(--glass-effect-color);
+  margin-top: 1rem;
+  background-color: var(--glass-color);
   backdrop-filter: blur(4px);
-  /* border-bottom: 1px solid var(--border-color); */
-  padding: 2rem 0.5rem 1rem 0.5rem;
+
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  box-shadow: var(--shadow-color);
+  transition: background-color 0.35s, box-shadow 0.35s;
 }
 
-ul {
+nav ul {
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 0 1rem;
   column-gap: 2rem;
 }
 
@@ -79,67 +90,154 @@ ul {
   margin-right: auto;
 }
 
-ul .selection {
-  background-color: var(--glass-effect-color);
-  padding: 0.5rem;
+.homeLi a {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.4rem;
   color: var(--font-color);
-  border: 1px solid var(--border-color);
-  border-radius: 1rem;
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
 }
 
-ul .selection option {
-  background-color: var(--glass-effect-color);
-  color: var(--font-color);
-  font-family: inherit;
+.homeLi a:hover {
+  color: var(--accent-color);
 }
 
-
+/* search icon button */
 ul .searchLi .toSearch {
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: transparent;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+ul .searchLi .toSearch:hover {
+  background: var(--border-color);
 }
 
 ul .searchLi .toSearch img {
-  width: 100%;
-  width: 1.5rem;
+  width: 1.2rem;
 }
 
+
 li a {
-  color: var(--font-color);
+  color: var(--font);
   position: relative;
+}
+
+li .toGo {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--font-color);
+  transition: color 0.2s;
 }
 
 li .toGo::before {
   content: "";
-  background-color: var(--accent-color);
+  background: var(--accent-color);
   position: absolute;
-  bottom: -0.1rem;
+  bottom: -0.25rem;
   left: 0;
-  height: 2px;
+  height: 1.5px;
   width: 0%;
-  transition: width 0.3s ease-out;
+  border-radius: 2px;
+  transition: width 0.5s ease-out;
 }
 
 li .toGo:hover::before {
   width: 100%;
 }
 
+/* theme toggle */
 .theme {
   cursor: pointer;
+  width: 1.4rem;
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+.theme:hover {
+  opacity: 1;
+  transform: rotate(25deg) scale(1.1);
+}
 
 main {
-  margin-top: 10rem;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
+
+.landingPage {
+  width: 100%;
+  min-height: 100vh;
+  background: url(images/demo.png);
+  object-fit: contain;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 2rem;
+}
+
+.landingPageInfo {
+  width: 100%;
+  width: fit-content;
+  background-color: var(--glass-color);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+}
+
+.landingPageInfo p {
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  background-color: var(--glass-color);
+  backdrop-filter: blur(10px);
+}
+
+.Buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 2rem;
+}
+
+.Buttons a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  background-color: var(--glass-color);
+  backdrop-filter: blur(10px);
+  color: var(--font-color);
+}
+
+
+.Buttons img {
+  width: 1rem;
+}
+
+.genre {
+  display: flex;
+  column-gap: 1rem;
+}
+
 
 .mainPage {
   width: 80%;
@@ -149,144 +247,264 @@ main {
 }
 
 .heroSectionH2 {
-  margin-bottom: 2rem;
+  font-size: 1.5rem;
 }
 
-.trendingCarouselSection {
+
+.trendingCarouselSection,
+.popularCarouselSection,
+.topRatedCarouselSection,
+.thrillerCarouselSection,
+.crimeCarouselSection,
+.horrorCarouselSection,
+.romanceCarouselSection,
+.comedyCarouselSection {
   width: 100%;
 }
 
-.trendingCarousel {
-  display: flex;
-  gap: 2rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
+/* Staggered entrance */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
+.trendingCarouselSection {
+  animation: fadeUp 0.55s ease both 0.05s;
+}
+
+.popularCarouselSection {
+  animation: fadeUp 0.55s ease both 0.12s;
+}
+
+.topRatedCarouselSection {
+  animation: fadeUp 0.55s ease both 0.19s;
+}
+
+.thrillerCarouselSection {
+  animation: fadeUp 0.55s ease both 0.26s;
+}
+
+.crimeCarouselSection {
+  animation: fadeUp 0.55s ease both 0.33s;
+}
+
+.horrorCarouselSection {
+  animation: fadeUp 0.55s ease both 0.40s;
+}
+
+.romanceCarouselSection {
+  animation: fadeUp 0.55s ease both 0.47s;
+}
+
+.comedyCarouselSection {
+  animation: fadeUp 0.55s ease both 0.54s;
+}
+
 
 .carouselWrapper {
   position: relative;
-  border-radius: 1rem;
-  overflow: hidden;
+  /* overflow: hidden; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
 .scrollButton {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  /* keeps it vertically centered */
   z-index: 10;
-  background-color: rgba(0, 0, 0, 0.377);
-  /* border-radius:25%; */
-  width: 4rem;
-  height: 100%;
-  border-radius: 1rem;
-  backdrop-filter: blur(4px);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--glass-color);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.25s;
 }
 
 .scrollButton:hover {
   cursor: pointer;
+  background: var(--button-color);
+  transform: scale(1.1);
+}
+
+.scrollButton img {
+  width: 1.5rem;
+  opacity: 0.75;
+  transition: opacity 0.2s, filter 0.2s;
+}
+
+.scrollButton:hover img {
+  opacity: 1;
+  filter: invert(1);
 }
 
 .leftArrow {
-  left: 0;
+  left: -1.5rem;
 }
 
 .rightArrow {
-  right: 0;
+  right: -1.5rem;
 }
-
-.popularCarouselSection {
-  width: 100%;
-}
-
-
-.popularCarousel {
-  display: flex;
-  gap: 2rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 0 1rem;
-}
-
-.popularCarousel::-webkit-scrollbar-button {
-  content: "right";
-}
-
-.topRatedCarouselSection {
-  width: 100%;
-}
-
-.topRatedCarousel {
-  display: flex;
-  gap: 2rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-}
-
 
 .trendingCarousel,
 .popularCarousel,
-.topRatedCarousel {
+.topRatedCarousel,
+.thrillerCarousel,
+.crimeCarousel,
+.horrorCarousel,
+.romanceCarousel,
+.comedyCarousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0.5rem;
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE/Edge */
 }
 
 .trendingCarousel::-webkit-scrollbar,
 .popularCarousel::-webkit-scrollbar,
-.topRatedCarousel::-webkit-scrollbar {
+.topRatedCarousel::-webkit-scrollbar,
+.thrillerCarousel::-webkit-scrollbar,
+.crimeCarousel::-webkit-scrollbar,
+.horrorCarousel::-webkit-scrollbar,
+.romanceCarousel::-webkit-scrollbar,
+.comedyCarousel::-webkit-scrollbar {
   display: none;
-  /* Chrome/Safari */
 }
 
-
-
 .card {
-  max-width: 100%;
+  width: 100%;
+  width: 180px;
+  scroll-snap-align: center;
   flex-shrink: 0;
-  width: 300px;
-  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 1rem;
   overflow: hidden;
 }
 
 .cardImage {
-  max-width: 100%;
+  width: 100%;
   max-height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  object-fit: cover;
 }
 
-.cardImage .cardButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 2rem;
+.cardButtonAnchor {
+  width: 100%;
+  height: 100%;
+}
+
+.hoveredCard {
   position: absolute;
-  opacity: 0;
-  transition: all 0.2s ease-in;
-}
-
-.card:hover .cardButton {
-  opacity: 0.9;
-
-}
-
-.cardImage .playButtonImg {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
+  height: 100%;
+  transition: backdrop-filter 0.15s;
 }
 
-.cardImage .infoButtonImg {
-  width: 100%;
-}
-
-.cardImage .playButtonImg:hover {
+.card:hover .hoveredCard {
   cursor: pointer;
+  backdrop-filter: blur(5px);
+
 }
 
-.cardImage .infoButtonImg:hover {
-  cursor: pointer;
+
+
+
+@keyframes popUp {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 768px) {
+  nav {
+    width: 95%;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .mainPage {
+    width: 95%;
+    row-gap: 2rem;
+  }
+
+  .card {
+    width: 148px;
+  }
+
+  .heroSectionH2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 550px) {
+  nav {
+    width: 98%;
+    margin-top: 0.25rem;
+  }
+
+  nav ul {
+    column-gap: 0.5rem;
+  }
+
+  .card {
+    width: 120px;
+  }
+
+  .heroSectionH2 {
+    font-size: 1rem;
+  }
+
+  .scrollButton {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+
+  .homeLi a {
+    font-size: 1.2rem;
+  }
+
+  li .toGo {
+    font-size: 0.55rem;
+  }
+
+  .homeLi a {
+    font-size: 1.25rem;
+  }
+
+  .leftArrow {
+    left: -0.5rem;
+  }
+
+  .rightArrow {
+    right: -0.5rem;
+  }
 }
