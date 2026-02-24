@@ -1,4 +1,5 @@
 :root {
+<<<<<<< HEAD
     --bg-color: #141414;
     --card-bg: #1f1f1f;
     --text-color: #ffffff;
@@ -17,8 +18,57 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+=======
+  --bg-color: white;
+  --container-color: rgb(200, 200, 200);
+  --card-color: rgb(180, 180, 180);
+  --font-color: black;
+  --accent-color: rgb(0, 140, 255);
+  --shadow-color: rgba(250, 250, 250, 0.9);
+  --border-color: rgba(126, 126, 126, 0.8);
+  --button-color: rgb(50, 50, 50);
+  --glass-color: rgba(0, 0, 0, 0.15);
+
+
+}
+
+.dark {
+  --bg-color: black;
+  --container-color: rgb(30, 30, 30);
+  --card-color: rgb(60, 60, 60);
+  --font-color: white;
+  --accent-color: rgb(255, 0, 0);
+  --shadow-color: rgba(10, 10, 10, 0.9);
+  --border-color: rgba(126, 126, 126, 0.8);
+  --button-color: rgb(200, 200, 200);
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  border: none;
+  list-style: none;
+  outline: none;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+img {
+  max-width: 100%;
+  object-fit: cover;
+  display: block;
+}
+>>>>>>> test
+
 
 body {
+<<<<<<< HEAD
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -46,6 +96,46 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .hero-content { position: relative; z-index: 10; padding-left: 4%; max-width: 600px; }
 .hero h1 { font-size: 3rem; margin-bottom: 1rem; color: #fff; text-shadow: 2px 2px 4px #000; }
 .hero p { margin-bottom: 1.5rem; color: #ddd; text-shadow: 1px 1px 2px #000; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+=======
+  width: 100%;
+  min-height: 100vh;
+  font-family: sans-serif;
+  color: var(--font-color);
+  background-color: var(--bg-color);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+}
+
+nav {
+  width: 80%;
+  margin-top: 1rem;
+  background-color: var(--glass-color);
+  backdrop-filter: blur(4px);
+
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  box-shadow: var(--shadow-color);
+  transition: background-color 0.35s, box-shadow 0.35s;
+}
+
+nav ul {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+}
+>>>>>>> test
 
 .btn-play, .btn-info { padding: 0.8rem 2rem; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-right: 1rem; }
 .btn-play { background: #fff; color: #000; }
@@ -53,6 +143,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .btn-info { background: rgba(109, 109, 110, 0.7); color: #fff; }
 .btn-info:hover { background: rgba(109, 109, 110, 0.4); }
 
+<<<<<<< HEAD
 /* Rows & Cards */
 .rows-container { position: relative; z-index: 20; padding-left: 4%; padding-bottom: 50px; }
 .row { margin-bottom: 2rem; }
@@ -78,3 +169,424 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .rating-badge { background: #46d369; color: #000; padding: 2px 6px; border-radius: 2px; font-weight: bold; margin-right: 10px; }
 .modal-meta { margin: 10px 0 20px; color: #aaa; }
 .modal-play { margin-top: 20px; background: var(--accent-color); color: white; width: 100%; }
+=======
+.homeLi a {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.4rem;
+  color: var(--font-color);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.homeLi a:hover {
+  color: var(--accent-color);
+}
+
+/* search icon button */
+ul .searchLi .toSearch {
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+ul .searchLi .toSearch:hover {
+  background: var(--border-color);
+}
+
+ul .searchLi .toSearch img {
+  width: 1.2rem;
+}
+
+
+li a {
+  color: var(--font);
+  position: relative;
+}
+
+li .toGo {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--font-color);
+  transition: color 0.2s;
+}
+
+li .toGo::before {
+  content: "";
+  background: var(--accent-color);
+  position: absolute;
+  bottom: -0.25rem;
+  left: 0;
+  height: 1.5px;
+  width: 0%;
+  border-radius: 2px;
+  transition: width 0.5s ease-out;
+}
+
+li .toGo:hover::before {
+  width: 100%;
+}
+
+/* theme toggle */
+.theme {
+  cursor: pointer;
+  width: 1.4rem;
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme:hover {
+  opacity: 1;
+  transform: rotate(25deg) scale(1.1);
+}
+
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.landingPage {
+  width: 100%;
+  min-height: 100vh;
+  background: url(images/demo.png);
+  object-fit: contain;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 2rem;
+}
+
+.landingPageInfo {
+  width: 100%;
+  width: fit-content;
+  background-color: var(--glass-color);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+}
+
+.landingPageInfo p {
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  background-color: var(--glass-color);
+  backdrop-filter: blur(10px);
+}
+
+.Buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 2rem;
+}
+
+.Buttons a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  background-color: var(--glass-color);
+  backdrop-filter: blur(10px);
+  color: var(--font-color);
+}
+
+
+.Buttons img {
+  width: 1rem;
+}
+
+.genre {
+  display: flex;
+  column-gap: 1rem;
+}
+
+
+.mainPage {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4rem;
+}
+
+.heroSectionH2 {
+  font-size: 1.5rem;
+}
+
+
+.trendingCarouselSection,
+.popularCarouselSection,
+.topRatedCarouselSection,
+.thrillerCarouselSection,
+.crimeCarouselSection,
+.horrorCarouselSection,
+.romanceCarouselSection,
+.comedyCarouselSection {
+  width: 100%;
+}
+
+/* Staggered entrance */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.trendingCarouselSection {
+  animation: fadeUp 0.55s ease both 0.05s;
+}
+
+.popularCarouselSection {
+  animation: fadeUp 0.55s ease both 0.12s;
+}
+
+.topRatedCarouselSection {
+  animation: fadeUp 0.55s ease both 0.19s;
+}
+
+.thrillerCarouselSection {
+  animation: fadeUp 0.55s ease both 0.26s;
+}
+
+.crimeCarouselSection {
+  animation: fadeUp 0.55s ease both 0.33s;
+}
+
+.horrorCarouselSection {
+  animation: fadeUp 0.55s ease both 0.40s;
+}
+
+.romanceCarouselSection {
+  animation: fadeUp 0.55s ease both 0.47s;
+}
+
+.comedyCarouselSection {
+  animation: fadeUp 0.55s ease both 0.54s;
+}
+
+
+.carouselWrapper {
+  position: relative;
+  /* overflow: hidden; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.scrollButton {
+  position: absolute;
+  z-index: 10;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--glass-color);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.25s;
+}
+
+.scrollButton:hover {
+  cursor: pointer;
+  background: var(--button-color);
+  transform: scale(1.1);
+}
+
+.scrollButton img {
+  width: 1.5rem;
+  opacity: 0.75;
+  transition: opacity 0.2s, filter 0.2s;
+}
+
+.scrollButton:hover img {
+  opacity: 1;
+  filter: invert(1);
+}
+
+.leftArrow {
+  left: -1.5rem;
+}
+
+.rightArrow {
+  right: -1.5rem;
+}
+
+.trendingCarousel,
+.popularCarousel,
+.topRatedCarousel,
+.thrillerCarousel,
+.crimeCarousel,
+.horrorCarousel,
+.romanceCarousel,
+.comedyCarousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0.5rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.trendingCarousel::-webkit-scrollbar,
+.popularCarousel::-webkit-scrollbar,
+.topRatedCarousel::-webkit-scrollbar,
+.thrillerCarousel::-webkit-scrollbar,
+.crimeCarousel::-webkit-scrollbar,
+.horrorCarousel::-webkit-scrollbar,
+.romanceCarousel::-webkit-scrollbar,
+.comedyCarousel::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  width: 100%;
+  width: 180px;
+  scroll-snap-align: center;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.cardImage {
+  width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.cardButtonAnchor {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hoveredCard {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  transition: backdrop-filter 0.15s;
+}
+
+.card:hover .hoveredCard {
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+
+}
+
+
+
+
+@keyframes popUp {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 768px) {
+  nav {
+    width: 95%;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .mainPage {
+    width: 95%;
+    row-gap: 2rem;
+  }
+
+  .card {
+    width: 148px;
+  }
+
+  .heroSectionH2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 550px) {
+  nav {
+    width: 98%;
+    margin-top: 0.25rem;
+  }
+
+  nav ul {
+    column-gap: 0.5rem;
+  }
+
+  .card {
+    width: 120px;
+  }
+
+  .heroSectionH2 {
+    font-size: 1rem;
+  }
+
+  .scrollButton {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+
+  .homeLi a {
+    font-size: 1.2rem;
+  }
+
+  li .toGo {
+    font-size: 0.55rem;
+  }
+
+  .homeLi a {
+    font-size: 1.25rem;
+  }
+
+  .leftArrow {
+    left: -0.5rem;
+  }
+
+  .rightArrow {
+    right: -0.5rem;
+  }
+}
+>>>>>>> test

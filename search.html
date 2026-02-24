@@ -1,48 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="search.css">
-  <title>stream/search</title>
+  <script type="module" src="search.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>stream / search</title>
+  <style>
+    /* ── SEARCH PAGE SPECIFIC ── */
+
+    main {
+      margin-top: 0;
+      padding-top: 7rem;
+      min-height: 100vh;
+    }
+
+    .mainPage {
+      width: 84%;
+      display: flex;
+      flex-direction: column;
+      row-gap: 2.5rem;
+    }
+
+    /* ── SEARCH BAR ── */
+    .searchSection { width: 100%; }
+
+    .searchRow {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .search-pill {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 3rem;
+      padding: 0.6rem 0.6rem 0.6rem 1.2rem;
+      box-shadow: var(--card-shadow);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-pill:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    /* search icon inside pill */
+    .search-icon {
+      width: 1.1rem; height: 1.1rem;
+      opacity: 0.4; flex-shrink: 0;
+    }
+
+    select {
+      background: var(--surface);
+      color: var(--font-mid);
+      border: none;
+      font-size: 0.8rem; font-family: 'Syne', sans-serif; font-weight: 500;
+      cursor: pointer; outline: none;
+      appearance: none; -webkit-appearance: none;
+      padding: 0.45rem 2rem 0.45rem 0.75rem;
+      border-radius: 2rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.6rem center;
+      transition: background-color 0.2s;
+    }
+    select:focus { outline: none; }
+
+    .searchBar {
+      flex: 1;
+      background: transparent;
+      color: var(--font);
+      border: none; font-size: 0.92rem;
+      font-family: 'Syne', sans-serif;
+      outline: none; min-width: 0;
+    }
+    .searchBar::placeholder { color: var(--font-muted); }
+
+    .searchButton {
+      padding: 0.65rem 1.5rem;
+      border-radius: 3rem;
+      background: var(--accent);
+      color: #fff; cursor: pointer;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px var(--accent-glow);
+      transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+    }
+    .searchButton:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+    .searchButton:active { transform: scale(0.97); }
+
+    /* ── RESULTS HEADER ── */
+    .titleSection {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic; font-size: 1.1rem;
+      color: var(--font-muted); letter-spacing: -0.01em;
+    }
+    .titleSection h2 {
+      font-weight: 400;
+    }
+    .titleSection span {
+      color: var(--accent);
+    }
+
+    /* ── CARD GRID ── */
+    .cardGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.4rem;
+      padding-bottom: 5rem;
+    }
+
+    /* cards in grid don't need fixed width */
+    .cardGrid .card {
+      width: 100%;
+    }
+
+    /* Empty state */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 5rem 2rem;
+      color: var(--font-muted);
+    }
+    .empty-state svg {
+      width: 3rem; height: 3rem; opacity: 0.3;
+      margin: 0 auto 1rem;
+      display: block;
+    }
+    .empty-state p {
+      font-size: 0.9rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .mainPage { width: 92%; }
+      .cardGrid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .mainPage { width: 95%; }
+      .search-pill { flex-direction: column; border-radius: 1.2rem; padding: 0.8rem; gap: 0.5rem; }
+      .search-pill select, .searchBar { width: 100%; }
+      .searchButton { width: 100%; border-radius: 0.8rem; text-align: center; }
+      .searchRow { flex-direction: column; }
+      .cardGrid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+    }
+  </style>
 </head>
 
 <body class="light">
-  <header>
-    <nav>
-      <ul>
-        <li class=""><a href="#"></a>Home</li>
-        <li class=""><select name="" id="">
-            <option value="default" disabled selected hidden>Select</option>
-            <option value="">Movies</option>
-            <option value="">Tv-shows</option>
-            <option value="">Animations</option>
-          </select></li>
-        <li class="">
-          <div class="searchSection" id="searchSection">
-            <input type="search" class="searchBar" id="searchBar" placeholder="Search you thing">
-            <button class="searchButton" id="searchButton">Go</button>
-          </div>
-        </li>
-        <li class=""><img id="theme" class="theme" src="images/lightMode.svg" alt="" /></li>
-      </ul>
-    </nav>
-  </header>
   <main>
-
     <section class="mainPage" id="mainPage">
+
+      <!-- Search Bar -->
+      <section class="searchSection" id="searchSection">
+        <div class="searchRow">
+          <div class="search-pill">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+
+            <select name="" id="categorySelect">
+              <option value="default" disabled selected hidden>All</option>
+              <option value="movie">Movies</option>
+              <option value="tv">Tv-shows</option>
+              <option value="animation">Animation</option>
+            </select>
+
+            <input type="search" class="searchBar" id="searchBar" placeholder="Search movies, shows…">
+          </div>
+
+          <button class="searchButton" id="searchButton">Search</button>
+        </div>
+      </section>
+
+      <!-- Results label -->
       <section class="titleSection" id="titleSection"></section>
 
+      <!-- Results Grid -->
       <section class="cardGrid" id="cardGrid">
-
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <p>Search for a movie or show to get started</p>
+        </div>
       </section>
+
     </section>
   </main>
-  <footer>
-
-  </footer>
-  <script src="search.js"></script>
+  <footer></footer>
 </body>
-
 </html>
