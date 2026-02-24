@@ -3,35 +3,58 @@ import { apiKey, baseUrl } from "./api.js";
 
 const params = new URLSearchParams(window.location.search);
 const movieId = params.get("id");
-movieInfoFunction();
 
-const movieInfoUrl = `/movie/{movieId}?api_key=${apiKey}`;
-const trailerUrl = `${baseUrl}/movie/{movie_id}/videos?api_key=${apiKey}`
+//console log
+console.log(window.location.search);
+console.log(movieId);
 
-
+const movieInfoUrl = `${baseUrl}/movie/${movieId}?api_key=${apiKey}`;
+const trailerUrl = `${baseUrl}/movie/${movieId}/videos?api_key=${apiKey}`
 const posterUrl = `https://image.tmdb.org/t/p/original`
+
 const mainPage = document.getElementById("mainPage");
-const exitImage = document.getElementById("exitImage");
 
 document.body.classList.add(localStorage.getItem("userTheme")) || "light";
+
+movieInfoFunction();
+
+
+
 
 
 
 async function movieInfoFunction() {
-    const movieInfoJson = await fetch(`${baseUrl}/movie/${movieId}?api_key=${apiKey}`);
+
+    try {
+        const movieInfoJson = await fetch(movieInfoUrl);
+        const movieInfoData = await movieInfoJson.json();
+
+        if (!movieInfoJson.ok || movieInfoData.success === false) {
+            throw new Error("Data couldn't fetched");
+        } else {
 
 
-    const movieInfoData = await movieInfoJson.json();
-    //console log
-    let srcUrl;
-    if (movieInfoData.backdrop_path) {
-        srcUrl = `${posterUrl}${movieInfoData.backdrop_path}`;
-    } else {
-        srcUrl = `${posterUrl}${movieInfoData.backdrop_path}` || `${posterUrl}${movieInfoData.poster_path}`
+            let srcUrl;
+            if (movieInfoData.backdrop_path) {
+                srcUrl = `${posterUrl}${movieInfoData.backdrop_path}`;
+            } else {
+                srcUrl = `${posterUrl}${movieInfoData.poster_path}`
+            }
+            mainPage.style.background = (`url(${srcUrl})`);
+
+            //console log
+            console.log(movieInfoData);
+
+            showMovieInfoUi(movieInfoData)
+        }
+
+    } catch (error) {
+        //console log
+        console.log(error.message);
+
     }
-    mainPage.style.background = (`url(${srcUrl})`);
-    console.log(movieInfoData);
-    showMovieInfoUi(movieInfoData)
+
+
 
 }
 
@@ -44,8 +67,10 @@ function showMovieInfoUi(data) {
 
     let playSrc = localStorage.getItem("playButtonImg") || "images/playDark.png";
 
+    // change the play to play.html for everthing bcz the play to use npx serve 
+
     movieButtons.innerHTML = `
-        <a href="play.html?id=${data.id}">
+        <a href="play?id=${data.id}">
             <img class="playButtonImg" src="${playSrc}" alt="">
             Stream
         </a>

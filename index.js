@@ -266,8 +266,10 @@ function carouselUi(data, index) {
   let playSrc = localStorage.getItem("playButtonImg") || "images/playDark.png";
   let infoSrc = localStorage.getItem("infoButtonImg") || "images/infoDark.png";
 
+  
+  // change the info into info.html for everthing bcz it's info to use npx serve 
   card.innerHTML = `
-                      <a href="info.html?id=${data.id}" class="cardButtonAnchor">
+                      <a href="info?id=${data.id}" class="cardButtonAnchor">
                        <img src=${srcUrl} alt="" class="cardImage" loading="lazy" >
                        <span class="hoveredCard"></span>                 
                       </a> 
@@ -403,6 +405,7 @@ function scroll() {
   scrollButton.forEach((button) => {
 
     button.addEventListener("click", (carou) => {
+      carou.stopPropagation();
       const carousel = button.closest(".carouselWrapper").querySelector('.carousel');
 
       if (button.classList.contains("leftArrow")) {
