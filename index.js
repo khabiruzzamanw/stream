@@ -21,7 +21,7 @@ const horrorCarousel = document.getElementById("horrorCarousel");
 const romanceCarousel = document.getElementById("romanceCarousel");
 const comedyCarousel = document.getElementById("comedyCarousel");
 
-// Instead of calling them one by one, run them in parallel
+// Instead of calling them one by one, running them in parallel
 async function init() {
   themeChanger();
   scroll();

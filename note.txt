@@ -1,1 +1,6 @@
 Hi
+
+
+fixed files : index.html ,index.js,info.html,info.js .
+
+important : style.css to be fixed .
