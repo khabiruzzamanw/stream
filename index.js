@@ -41,200 +41,237 @@ async function init() {
 
 init();
 
-// themeChanger();
-// trendingFunction();
-// popularFunction();
-// topRatedFunction();
-
-
-
 async function landingPageFunction() {
+  try {
+    const landingPageDataJson = await fetch(landingPageUrl);
+    const landingPageData = await landingPageDataJson.json();
+    if (!landingPageDataJson.ok || landingPageData.success === false) {
+      throw new Error("Couldn't fetched data");
 
-  const landingPageDataJson = await fetch(landingPageUrl);
+    } else {
 
-  const landingPageData = await landingPageDataJson.json();
+      const landingPageDataArr = landingPageData.results;
+      landingPageDataArr.forEach((element, index) => {
+        const card = carouselUi(element, index);
+        //console log 
+        console.log(` landingPageDataArray :`, element, index);
+      });
+      //console log 
+      console.log(` landingPagedata :`, landingPageData);
+    }
 
-  const landingPageDataArr = landingPageData.results;
-
-  landingPageDataArr.forEach((element, index) => {
-
-    const card = carouselUi(element, index);
-    //console log 
-
-    console.log(` landingPageDataArray :`, element, index);
-  });
-
-  //console log 
-  console.log(` landingPagedata :`, landingPageData);
-
-
+  } catch (error) {
+    console.log(error.message);
+  }
 }
+
+
 async function trendingFunction() {
+  try {
+    const trendingDataJson = await fetch(trendingUrl);
+    const trendingData = await trendingDataJson.json();
+    if (!trendingDataJson.ok || trendingData.success === false) {
+      throw new Error("Couldn't fetched data");
 
-  const trendingDataJson = await fetch(trendingUrl);
+    } else {
+      const trendingDataArr = trendingData.results;
+      trendingDataArr.forEach((element, index) => {
+        const card = carouselUi(element, index);
+        trendingCarousel.appendChild(card);
+        //console log 
+        console.log(` trendingDataArray :`, element, index);
+      });
+      //console log 
+      console.log(` trendingdata :`, trendingData);
+    }
 
-  const trendingData = await trendingDataJson.json();
-
-  const trendingDataArr = trendingData.results;
-
-  trendingDataArr.forEach((element, index) => {
-
-    const card = carouselUi(element, index);
-    trendingCarousel.appendChild(card);
-    //console log 
-
-    console.log(` trendingDataArray :`, element, index);
-  });
-
-  //console log 
-  console.log(` trendingdata :`, trendingData);
-
-
+  } catch (error) {
+    console.log(error.message);
+  }
 }
-
 
 
 async function popularFunction() {
-  const popularDataJson = await fetch(popularUrl);
+  try {
+    const popularDataJson = await fetch(popularUrl);
+    const popularData = await popularDataJson.json();
+    if (!popularDataJson.ok || popularData.success === false) {
+      throw new Error("Couldn't fetched data");
 
-  const popularData = await popularDataJson.json();
+    } else {
 
-  const popularDataArr = popularData.results;
-
-  popularDataArr.forEach((element, index) => {
-
-    const card = carouselUi(element, index);
-    popularCarousel.appendChild(card);
-
-    //console log 
-
-    console.log(` popularDataArray :`, element, index);
-  });
-  //console log 
-  console.log(` popularData :`, popularData);
-
+      const popularDataArr = popularData.results;
+      popularDataArr.forEach((element, index) => {
+        const card = carouselUi(element, index);
+        popularCarousel.appendChild(card);
+        //console log 
+        console.log(` popularDataArray :`, element, index);
+      });
+      //console log 
+      console.log(` popularData :`, popularData);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 
 async function topRatedFunction() {
-  const topRatedDataJson = await fetch(topRatedUrl);
+  try {
+    const topRatedDataJson = await fetch(topRatedUrl);
+    const topRatedData = await topRatedDataJson.json();
 
-  const topRatedData = await topRatedDataJson.json();
+    if (!topRatedDataJson.ok || topRatedData.success === false) {
+      throw new Error("Couldn't fetched data");
 
-  const topRatedDataArr = topRatedData.results;
+    } else {
 
-  topRatedDataArr.forEach((element, index) => {
+      const topRatedDataArr = topRatedData.results;
+      topRatedDataArr.forEach((element, index) => {
+        const card = carouselUi(element, index);
+        topRatedCarousel.appendChild(card);
+        //console log 
+        console.log(` topRatedDataArray :`, element, index);
+      });
+      //console log 
+      console.log(` topRatedData :`, topRatedData);
+    }
 
-    const card = carouselUi(element, index);
-    topRatedCarousel.appendChild(card);
-
-    //console log 
-
-    console.log(` topRatedDataArray :`, element, index);
-  });
-  //console log 
-  console.log(` topRatedData :`, topRatedData);
+  } catch (error) {
+    console.log(error.message);
+  }
 
 }
+
+
 async function thrillerFunction() {
-  const thrillerDataJson = await fetch(thrillerUrl);
+  try {
+    const thrillerDataJson = await fetch(thrillerUrl);
+    const thrillerData = await thrillerDataJson.json();
+    if (!thrillerDataJson.ok || thrillerData.success === false) {
+      throw new Error("Couldn't fetched data");
 
-  const thrillerData = await thrillerDataJson.json();
+    } else {
 
-  const thrillerDataArr = thrillerData.results;
+      const thrillerDataArr = thrillerData.results;
+      thrillerDataArr.forEach((element, index) => {
+        const card = carouselUi(element, index);
+        thrillerCarousel.appendChild(card);
+        //console log 
+        console.log(` thrillerDataArray :`, element, index);
+      });
+      //console log 
+      console.log(` thrillerData :`, thrillerData);
+    }
 
-  thrillerDataArr.forEach((element, index) => {
-
-    const card = carouselUi(element, index);
-    thrillerCarousel.appendChild(card);
-
-    //console log 
-
-    console.log(` thrillerDataArray :`, element, index);
-  });
-  //console log 
-  console.log(` thrillerData :`, thrillerData);
-
+  } catch (error) {
+    console.log(error.message);
+  }
 }
+
+
 async function crimeFunction() {
-  const crimeDataJson = await fetch(crimeUrl);
+  try {
+    const crimeDataJson = await fetch(crimeUrl);
+    const crimeData = await crimeDataJson.json();
 
-  const crimeData = await crimeDataJson.json();
+    if (!crimeDataJson.ok || crimeData.success === false) {
+      throw new Error("Couldn't fetched data");
 
-  const crimeDataArr = crimeData.results;
+    } else {
+      const crimeDataArr = crimeData.results;
+      crimeDataArr.forEach((element, index) => {
+        const card = carouselUi(element, index);
+        crimeCarousel.appendChild(card);
+        //console log 
+        console.log(` crimeDataArray :`, element, index);
+      });
+      //console log 
+      console.log(` crimeData :`, crimeData);
+    }
 
-  crimeDataArr.forEach((element, index) => {
-
-    const card = carouselUi(element, index);
-    crimeCarousel.appendChild(card);
-
-    //console log 
-
-    console.log(` crimeDataArray :`, element, index);
-  });
-  //console log 
-  console.log(` crimeData :`, crimeData);
-
+  } catch (error) {
+    console.log(error.message);
+  }
 }
+
+
 async function horrorFunction() {
-  const horrorDataJson = await fetch(horrorUrl);
+  try {
+    const horrorDataJson = await fetch(horrorUrl);
+    const horrorData = await horrorDataJson.json();
+    if (!horrorDataJson.ok || horrorData.success === false) {
+      throw new Error("Couldn't fetched Data");
 
-  const horrorData = await horrorDataJson.json();
+    } else {
+      const horrorDataArr = horrorData.results;
+      horrorDataArr.forEach((element, index) => {
+        const card = carouselUi(element, index);
+        horrorCarousel.appendChild(card);
+        //console log 
+        console.log(` horrorDataArray :`, element, index);
+      });
+      //console log 
+      console.log(` horrorData :`, horrorData);
+    }
 
-  const horrorDataArr = horrorData.results;
-
-  horrorDataArr.forEach((element, index) => {
-
-    const card = carouselUi(element, index);
-    horrorCarousel.appendChild(card);
-
-    //console log 
-
-    console.log(` horrorDataArray :`, element, index);
-  });
-  //console log 
-  console.log(` horrorData :`, horrorData);
-
+  } catch (error) {
+    console.log(error.message);
+  }
 }
+
+
 async function romanceFunction() {
-  const romanceDataJson = await fetch(romanceUrl);
+  try {
+    const romanceDataJson = await fetch(romanceUrl);
+    const romanceData = await romanceDataJson.json();
 
-  const romanceData = await romanceDataJson.json();
+    if (!romanceDataJson.ok || romanceData.success === false) {
+      throw new Error("Couldn't fetched data");
 
-  const romanceDataArr = romanceData.results;
+    } else {
 
-  romanceDataArr.forEach((element, index) => {
-
-    const card = carouselUi(element, index);
-    romanceCarousel.appendChild(card);
-
-    //console log 
-
-    console.log(` romanceDataArray :`, element, index);
-  });
-  //console log 
-  console.log(` romanceData :`, romanceData);
+      const romanceDataArr = romanceData.results;
+      romanceDataArr.forEach((element, index) => {
+        const card = carouselUi(element, index);
+        romanceCarousel.appendChild(card);
+        //console log 
+        console.log(` romanceDataArray :`, element, index);
+      });
+      //console log 
+      console.log(` romanceData :`, romanceData);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
 
 }
+
+
 async function comedyFunction() {
-  const comedyDataJson = await fetch(comedyUrl);
+  try {
+    const comedyDataJson = await fetch(comedyUrl);
+    const comedyData = await comedyDataJson.json();
 
-  const comedyData = await comedyDataJson.json();
+    if (!comedyDataJson.ok || comedyData.success === false) {
+      throw new Error("Couldn't data");
 
-  const comedyDataArr = comedyData.results;
+    } else {
 
-  comedyDataArr.forEach((element, index) => {
+      const comedyDataArr = comedyData.results;
+      comedyDataArr.forEach((element, index) => {
+        const card = carouselUi(element, index);
+        comedyCarousel.appendChild(card);
+        //console log 
+        console.log(` comedyDataArray :`, element, index);
+      });
+      //console log 
+      console.log(` comedyData :`, comedyData);
 
-    const card = carouselUi(element, index);
-    comedyCarousel.appendChild(card);
-
-    //console log 
-
-    console.log(` comedyDataArray :`, element, index);
-  });
-  //console log 
-  console.log(` comedyData :`, comedyData);
-
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 
@@ -243,9 +280,9 @@ function carouselUi(data, index) {
 
   card.setAttribute("class", "card");
   card.setAttribute("id", `card${index + 1}`);
+
   //console log 
   console.log(card.id);
-
 
   let srcUrl;
   if (data.poster_path) {
@@ -263,10 +300,6 @@ function carouselUi(data, index) {
     overviewWords = data.overview;
   }
 
-  let playSrc = localStorage.getItem("playButtonImg") || "images/playDark.png";
-  let infoSrc = localStorage.getItem("infoButtonImg") || "images/infoDark.png";
-
-  
   // change the info into info.html for everthing bcz it's info to use npx serve 
   card.innerHTML = `
                       <a href="info?id=${data.id}" class="cardButtonAnchor">
@@ -274,20 +307,11 @@ function carouselUi(data, index) {
                        <span class="hoveredCard"></span>                 
                       </a> 
                    `
-
   //console log
   console.log(data.id);
   return card;
 
-
-
-}
-
-
-
-
-
-
+};
 
 
 function themeChanger() {
@@ -297,28 +321,21 @@ function themeChanger() {
   const leftArrow = document.querySelectorAll(".leftArrowImage");
   const rightArrow = document.querySelectorAll(".rightArrowImage");
 
-  document.body.classList.add(localStorage.getItem("userTheme")) || "light";
+  document.body.classList.add(localStorage.getItem("userTheme") || "light");
   theme.src = localStorage.getItem("themeImg") || "images/lightMode.svg";
   toSearchImg.src = localStorage.getItem("SearchImg") || "images/searchDark.svg";
 
   if (leftArrow) {
-
-
     leftArrow.forEach((element) => {
-
       element.src = localStorage.getItem("leftArrowImg") || "images/swipeLeftDark.png";
-
     })
-  }
+  };
+
   if (rightArrow) {
-
-
     rightArrow.forEach((element) => {
-
       element.src = localStorage.getItem("rightArrowImg") || "images/swipeRightDark.png";
-
     })
-  }
+  };
 
 
   theme.addEventListener("click", () => {
@@ -334,31 +351,30 @@ function themeChanger() {
       localStorage.setItem("userTheme", "light");
       localStorage.setItem("themeImg", "images/lightMode.svg");
       localStorage.setItem("SearchImg", "images/searchDark.svg");
-      if (playButtonImg) {
-        playButtonImg.forEach((element) => {
-          element.src = "images/playDark.png";
-          localStorage.setItem("playButtonImg", "images/playDark.png")
-        })
 
-      }
+      if (playButtonImg) {
+        playButtonImg.src = "images/playDark.png";
+        localStorage.setItem("playButtonImg", "images/playDark.png")
+      };
+
       if (infoButtonImg) {
-        infoButtonImg.forEach((element) => {
-          element.src = "images/infoDark.png";
-          localStorage.setItem("infoButtonImg", "images/infoDark.png")
-        })
-      }
+        infoButtonImg.src = "images/infoDark.png";
+        localStorage.setItem("infoButtonImg", "images/infoDark.png")
+      };
+
       if (leftArrow) {
         leftArrow.forEach((element) => {
           element.src = "images/swipeLeftDark.png";
           localStorage.setItem("leftArrowImg", "images/swipeLeftDark.png")
         })
-      }
+      };
+
       if (rightArrow) {
         rightArrow.forEach((element) => {
           element.src = "images/swipeRightDark.png";
           localStorage.setItem("rightArrowImg", "images/swipeRightDark.png")
         })
-      }
+      };
 
     } else {
 
@@ -368,53 +384,39 @@ function themeChanger() {
       localStorage.setItem("userTheme", "dark");
       localStorage.setItem("themeImg", "images/darkMode.svg");
       localStorage.setItem("SearchImg", "images/searchLight.svg");
+
       if (playButtonImg) {
-        playButtonImg.forEach((element) => {
-          element.src = "images/playLight.png";
-          localStorage.setItem("playButtonImg", "images/playLight.png")
-        })
-      }
+        playButtonImg.src = "images/playLight.png";
+        localStorage.setItem("playButtonImg", "images/playLight.png")
+      };
+
       if (infoButtonImg) {
-        infoButtonImg.forEach((element) => {
-          element.src = "images/infoLight.png";
-          localStorage.setItem("infoButtonImg", "images/infoLight.png")
-        })
-      }
+        infoButtonImg.src = "images/infoLight.png";
+        localStorage.setItem("infoButtonImg", "images/infoLight.png")
+      };
+
       if (leftArrow) {
         leftArrow.forEach((element) => {
           element.src = "images/swipeLeftLight.png";
           localStorage.setItem("leftArrowImg", "images/swipeLeftLight.png")
         })
-      }
+      };
+
       if (rightArrow) {
         rightArrow.forEach((element) => {
           element.src = "images/swipeRightLight.png";
           localStorage.setItem("rightArrowImg", "images/swipeRightLight.png")
         })
-      }
+      };
 
     }
 
   });
 
-const requests = {
-    fetchTrending: `${baseUrl}/trending/all/day?api_key=${apiKey}`,
-    fetchTopRated: `${baseUrl}/movie/top_rated?api_key=${apiKey}&language=en-US`,
-    fetchAction: `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=28`,
-    fetchComedy: `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=35`,
-    fetchHorror: `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=27`,
-    search: `${baseUrl}/search/movie?api_key=${apiKey}&query=`,
-};
 
-document.addEventListener("DOMContentLoaded", () => {
-    initTheme();
-    
-    // Load Rows
-    fetchMovies(requests.fetchTrending, "trendingRow", true);
-    fetchMovies(requests.fetchTopRated, "topRatedRow");
-    fetchMovies(requests.fetchAction, "actionRow");
-    fetchMovies(requests.fetchComedy, "comedyRow");
-    fetchMovies(requests.fetchHorror, "horrorRow");
+
+}
+
 
 function scroll() {
   const scrollButton = document.querySelectorAll('.scrollButton')
@@ -429,10 +431,9 @@ function scroll() {
       }
       else {
         carousel.scrollBy({ left: 320, behavior: "smooth" });
-
       }
 
-    })
+    });
 
-  })
-}
+  });
+};
