@@ -10,6 +10,7 @@ const horrorUrl = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=27`;
 const romanceUrl = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=10749`;
 const comedyUrl = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=35`;
 
+
 const posterUrl = `https://image.tmdb.org/t/p/original`;
 
 const trendingCarousel = document.getElementById("trendingCarousel");
@@ -49,15 +50,70 @@ async function landingPageFunction() {
       throw new Error("Couldn't fetched data");
 
     } else {
+      const randomIndex = Math.floor((Math.random() * landingPageData.results.length));
+      const landingPageContentData = landingPageData.results[randomIndex];
 
-      const landingPageDataArr = landingPageData.results;
-      landingPageDataArr.forEach((element, index) => {
-        const card = carouselUi(element, index);
-        //console log 
-        console.log(` landingPageDataArray :`, element, index);
-      });
       //console log 
-      console.log(` landingPagedata :`, landingPageData);
+      console.log(` landingPageData :`, landingPageData);
+      console.log(` landingPageContentData :`, landingPageContentData);
+      console.log(randomIndex);
+
+      const landingPage = document.querySelector(".landingPage");
+      const overView = document.querySelector(".overView");
+      const AkaTitle = document.querySelector(".AkaTitle");
+      const genre = document.querySelector(".genre");
+      const title = document.querySelector(".title");
+      // const title = document.querySelector(".title");
+
+      movieInfoFunction();
+
+      async function movieInfoFunction() {
+
+        const movieInfoUrl = `${baseUrl}/movie/${landingPageContentData.id}?api_key=${apiKey}`;
+        const tvInfoUrl = `${baseUrl}/tv/${landingPageContentData.id}?api_key=${apiKey}`;
+
+        try {
+          let contentUrl;
+          if (landingPageContentData.media_type === 'tv') {
+            contentUrl = tvInfoUrl;
+
+          } else {
+            console.log("No media type found or type is movie. Defaulting to Movie API.");
+            contentUrl = movieInfoUrl;
+          }
+          const contentInfoJson = await fetch(contentUrl);
+          const contentInfoData = await contentInfoJson.json();
+
+          console.log(contentInfoData);
+
+
+          if (!contentInfoJson.ok || contentInfoData.success === false) {
+            throw new Error("Data couldn't fetched");
+
+          } else {
+            let srcUrl;
+
+            if (contentInfoData.backdrop_path) {
+              srcUrl = `${posterUrl}${contentInfoData.backdrop_path}`;
+            } else {
+              srcUrl = `${posterUrl}${contentInfoData.poster_path}`
+            }
+            landingPage.style.setProperty("--bg-image", `url(${srcUrl})`);
+            title.innerHTML = contentInfoData.original_title || contentInfoData.original_name;
+            overView.innerHTML = contentInfoData.overview;
+            AkaTitle.innerHTML = contentInfoData.name || contentInfoData.title;
+            const genreParas = contentInfoData.genres.map(element => `<p>${element.name}</p>`).join("");
+
+            genre.innerHTML = genreParas;
+
+
+          }
+
+        } catch (error) {
+          //console log
+          console.log(error.message);
+        };
+      };
     }
 
   } catch (error) {
@@ -293,7 +349,7 @@ function carouselUi(data, index) {
 
   // change the info into info.html for everthing bcz it's info to use npx serve 
   card.innerHTML = `
-                      <a href="info.html?id=${data.id}&mtype=${data.media_type}" class="cardButtonAnchor">
+                      <a href="info?id=${data.id}&mtype=${data.media_type}" class="cardButtonAnchor">
                        <img src=${srcUrl} alt="" class="cardImage" loading="lazy" >
                        <span class="hoveredCard"></span>                 
                       </a> 
