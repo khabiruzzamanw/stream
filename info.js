@@ -197,11 +197,11 @@ function showTvInfoUi(data) {
 
                     let seasonNumber = seasonSelect.value;
                     episodeImage.innerHTML = `
-                        <a href="play?id=${data.id}&mtype=${mediaType}&sname=${seasonNumber}&sepisode=${pickedEpisode.episode_number}"><img src=${episodePreviewImageSrc} alt=""></a>
+                        <a href="play.html?id=${data.id}&mtype=${mediaType}&sname=${seasonNumber}&sepisode=${pickedEpisode.episode_number}"><img src=${episodePreviewImageSrc} alt=""></a>
                         `
 
                     episodeName.innerHTML = `
-                       <a href="play?id=${data.id}&mtype=${mediaType}&sname=${seasonNumber}&sepisode=${pickedEpisode.episode_number}"> <p>${pickedEpisode.name}</p>
+                       <a href="play.html?id=${data.id}&mtype=${mediaType}&sname=${seasonNumber}&sepisode=${pickedEpisode.episode_number}"> <p>${pickedEpisode.name}</p>
                         <p>${pickedEpisode.overview}</p></a>
                         `
                     tvStreamSection.appendChild(episodePreview);
@@ -234,7 +234,7 @@ function showMovieInfoUi(data) {
     // change the play to play.html for everthing bcz the play to use npx serve 
 
     movieButtons.innerHTML = `
-        <a href="play?id=${data.id}" class="streamButtonAnchor">
+        <a href="play.html?id=${data.id}" class="streamButtonAnchor">
             <img class="playButtonImg" src="${playSrc}" alt="">
             Stream
         </a>
