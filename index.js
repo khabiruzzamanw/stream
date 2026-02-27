@@ -293,7 +293,7 @@ function carouselUi(data, index) {
 
   // change the info into info.html for everthing bcz it's info to use npx serve 
   card.innerHTML = `
-                      <a href="info?id=${data.id}&mtype=${data.media_type}" class="cardButtonAnchor">
+                      <a href="info.html?id=${data.id}&mtype=${data.media_type}" class="cardButtonAnchor">
                        <img src=${srcUrl} alt="" class="cardImage" loading="lazy" >
                        <span class="hoveredCard"></span>                 
                       </a> 
