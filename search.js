@@ -78,7 +78,7 @@ function showUI(data) {
   // let srcUrl =` https://image.tmdb.org/t/p/w500${data.poster_path}  || images/demo.png `
 
   card.innerHTML = `
-                      <a href="info?id=${data.id}&mtype=${data.media_type}" class="cardButtonAnchor">
+                      <a href="info.html?id=${data.id}&mtype=${data.media_type}" class="cardButtonAnchor">
                        <img src=${srcUrl} alt="" class="cardImage" loading="lazy" >
                        <span class="hoveredCard"></span>                 
                       </a> 
